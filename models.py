@@ -1,6 +1,6 @@
 from collections import OrderedDict
 from datetime import date, datetime
-from operator import attrgetter
+from operator import attrgetter, itemgetter
 
 NB_PLAYER = 2
 
@@ -15,13 +15,13 @@ class Tournament:
         self.number_rounds = 4
         self.tournee = ""
         self.player_list = {'Nom de famille': 'aaaa', 'Classement': '5', 'Score': 5}, \
-                           {'Nom de famille': 'bbbb', 'Classement': '2', 'Score': 4}, \
-                           {'Nom de famille': 'cccc', 'Classement': '8', 'Score': 0}, \
+                           {'Nom de famille': 'bbbb', 'Classement': '2', 'Score': 4}
+        """{'Nom de famille': 'cccc', 'Classement': '8', 'Score': 0}, \
                            {'Nom de famille': 'dddd', 'Classement': '3', 'Score': 3}, \
                            {'Nom de famille': 'eeee', 'Classement': '4', 'Score': 0}, \
                            {'Nom de famille': 'ffff', 'Classement': '6', 'Score': 1}, \
                            {'Nom de famille': 'gggg', 'Classement': '1', 'Score': 1}, \
-                           {'Nom de famille': 'hhhh', 'Classement': '7', 'Score': 1}
+                           {'Nom de famille': 'hhhh', 'Classement': '7', 'Score': 1}"""
         # self.player_list = player_list
         self.time_control = "Bullet, un blitz ou un coup rapide"
         self.description = "Mots du directeur"
@@ -101,14 +101,13 @@ class Round:
         self.end_time = now.strftime("%H:%M:%S")
 
     def sort_list_ranking(self):
-        d1 = sorted(self.player_list, key=lambda player_list: player_list['Score'], reverse=True)
-        self.player_list = OrderedDict(sorted(d1[1], key=lambda player_list: player_list[1], reverse=False))
+        self.player_list = sorted(self.player_list, key=lambda player_list: [player_list['Score'], player_list['Classement']], reverse=True)
         return self.player_list
 
-    def sort_list_score_and_ranking(self):
+    """def sort_list_ranking(self):
         # trier en nombre total de point
-        s = sorted(self.player_list, key=attrgetter(str(self.fctSortDict)))  # sort on secondary key
-        sorted(s, key=attrgetter('Score'), reverse=True)
+        self.player_list = sorted(self.player_list, key=itemgetter(1))  # sort on secondary key
+        sorted(self.player_list, key=itemgetter(2), reverse=True)"""
 
     def first_round(self):
         # création des listes niveaux haut et bas
@@ -134,20 +133,31 @@ class Round:
 
 class Match:
 
-    def __init__(self, name="Match", first_player="", second_player="", match_result=None):
+    def __init__(self, name="Match", first_player="", second_player="",player_list=None, match_result=None):
+        if player_list is None:
+            player_list = []
         if match_result is None:
             self.match_result = []
         self.name = name
         self.first_player = first_player
         self.second_player = second_player
         self.match_result = match_result
+        self.player_list = player_list
 
     def __repr__(self):
         return f"nom de la rencontre {self.name}\n" \
                f"rencontre entre M/Mme {self.first_player} et M/Mme {self.second_player}\n" \
                f"resultat du match : {self.match_result}"
 
-    def match_result_(self):
+    def add_score(self):
+        tournament = Tournament()
+        for p in self.player_list:
+            if p["Nom de famille"] == self.first_player:
+                p["Score"] += 1
+            tournament.player_list = self.player_list
+
+    @property
+    def match_result_(self):  # sourcery skip: move-assign-in-block, switch
         print("Quelle est le résultat de la partie ? \n"
               f"Si M/Mme {self.first_player} a gagné(e), tapé 1\n"
               f"Si M/Mme {self.second_player} a gagné(e), tapé 2\n"
@@ -157,10 +167,12 @@ class Match:
         if answer_int == 1:
             player_win = [self.first_player, 1]
             player_loose = [self.second_player, 0]
+            self.add_score()
             self.match_result = (player_win, player_loose)
         elif answer_int == 2:
             player_win = [self.second_player, 0]
             player_loose = [self.first_player, 1]
+            self.add_score()
             self.match_result = (player_win, player_loose)
         elif answer_int == 3:
             player_win = [self.first_player, 0]
@@ -173,23 +185,15 @@ class Match:
 # Controller
 tournament = Tournament()
 player = Player()
-"""player_list = {'Nom de famille': 'aaaa', 'Classement': '5'}, {'Nom de famille': 'bbbb', 'Classement': '2'}, \
-              {'Nom de famille': 'cccc', 'Classement': '8'}, {'Nom de famille': 'dddd', 'Classement': '3'}, \
-              {'Nom de famille': 'eeee', 'Classement': '4'}, {'Nom de famille': 'ffff', 'Classement': '6'}, \
-              {'Nom de famille': 'gggg', 'Classement': '1'}, {'Nom de famille': 'hhhh', 'Classement': '7'}"""
 # player_list = tournament.add_player()
 round = Round(tournament.player_list, "Round 1")
-first_round = round.first_round()
-for m in first_round:
+print(tournament.player_list)
+for m in round.first_round():
     first_player = m[0]['Nom de famille']
     second_player = m[1]['Nom de famille']
-    match = Match(m, first_player, second_player)
-    match_result = match.match_result_()
+    match = Match(m, first_player, second_player, tournament.player_list)
+    match_result = match.match_result_
     round.endgame_date_time()
 tournament.round_instance_list(round)
-print(round.player_list)
 round.sort_list_ranking()
-
-
-for p in tournament.player_list:
-    print(p)
+print(tournament.player_list)
