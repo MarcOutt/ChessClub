@@ -57,6 +57,6 @@ def launch_round_3(round_2):
     print(round_3.sort_list_ranking_and_score())
 
 
-def save_result(match, round):
+def enter_result(match, round):
     match_result = match.match_result_
     round.endgame_date_time()

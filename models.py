@@ -1,6 +1,4 @@
-
 from datetime import date, datetime
-
 
 # je n'ai pas géré le trie par le score et le classement au niveau du round 2
 NB_PLAYER = 2
@@ -10,8 +8,8 @@ class Tournament:
     def __init__(self, player_list=None):
         if player_list is None:
             player_list = []
-        self.name = "Val Tournament"
-        self.location = "Paris"
+        self.name = input("Nom du tournoi : ")
+        self.locality = input("Lieu du tournoi : ")
         self.date = date.today()
         self.number_rounds = 4
         self.tournee = ""
@@ -135,9 +133,9 @@ class Round:
                 old_match = sorted(i, key=lambda player_list: player_list['Nom de famille'])
                 match_list_sort.append(old_match)
             if str(new_match) in match_list_sort:
-                    print("match existe déjà")
-                    #  new_match = [self.player_list[i], self.player_list[i + 2]]
-                    #  print(f"new match 1.2 : {new_match}")
+                print("match existe déjà")
+                #  new_match = [self.player_list[i], self.player_list[i + 2]]
+                #  print(f"new match 1.2 : {new_match}")
             new_matchs_list.append(new_match)
         self.matchs_list = new_matchs_list
         return self.matchs_list
@@ -145,9 +143,10 @@ class Round:
         # Si le match existe faire un i + 1 sur le second de la liste
         # Revérifier si le match n'a pas déjà eu lieu
 
+
 class Match:
 
-    def __init__(self, name="Match", first_player="", second_player="",player_list=None, match_result=None):
+    def __init__(self, name="Match", first_player="", second_player="", player_list=None, match_result=None):
         if player_list is None:
             player_list = []
         if match_result is None:
@@ -195,44 +194,43 @@ class Match:
         self.match_result = tuple(self.match_result)
         return self.match_result
 
-# Controller
-tournament = Tournament()
-player = Player()
-# player_list = tournament.add_player()
-# round 1
-round = Round(player_list=tournament.player_list, name="Round 1")
-for m in round.first_round():
-    first_player = m[0]['Nom de famille']
-    second_player = m[1]['Nom de famille']
-    match = Match(m, first_player, second_player, tournament.player_list)
-    match_result = match.match_result_
-    round.endgame_date_time()
-round.sort_list_ranking_and_score()
-tournament.round_instance_list(round)
 
-# round 2
-round_2 = Round(player_list=tournament.player_list, name="Round 2", match_list=round.matchs_list)
-for m in round_2.next_round():
-    first_player = m[0]['Nom de famille']
-    second_player = m[1]['Nom de famille']
-    match = Match(m, first_player, second_player, tournament.player_list)
-    match_result = match.match_result_
-    round.endgame_date_time()
-tournament.round_instance_list(round_2)
-round_2.sort_list_ranking_and_score()
-print(round_2.sort_list_ranking_and_score())
+if __name__ == '__main__':
+    # Controller
+    tournament = Tournament()
+    player = Player()
+    # player_list = tournament.add_player()
+    # round 1
+    round = Round(player_list=tournament.player_list, name="Round 1")
+    for m in round.first_round():
+        first_player = m[0]['Nom de famille']
+        second_player = m[1]['Nom de famille']
+        match = Match(m, first_player, second_player, tournament.player_list)
+        match_result = match.match_result_
+        round.endgame_date_time()
+    round.sort_list_ranking_and_score()
+    tournament.round_instance_list(round)
 
-# round 3
-round_3 = Round(player_list=tournament.player_list, name="Round 2", match_list=round.matchs_list)
-for m in round_3.next_round():
-    first_player = m[0]['Nom de famille']
-    second_player = m[1]['Nom de famille']
-    match = Match(m, first_player, second_player, tournament.player_list)
-    match_result = match.match_result_
-    round.endgame_date_time()
-tournament.round_instance_list(round_2)
-round_3.sort_list_ranking_and_score()
-print(round_3.sort_list_ranking_and_score())
+    # round 2
+    round_2 = Round(player_list=tournament.player_list, name="Round 2", match_list=round.matchs_list)
+    for m in round_2.next_round():
+        first_player = m[0]['Nom de famille']
+        second_player = m[1]['Nom de famille']
+        match = Match(m, first_player, second_player, tournament.player_list)
+        match_result = match.match_result_
+        round.endgame_date_time()
+    tournament.round_instance_list(round_2)
+    round_2.sort_list_ranking_and_score()
+    print(round_2.sort_list_ranking_and_score())
 
-
-
+    # round 3
+    round_3 = Round(player_list=tournament.player_list, name="Round 2", match_list=round.matchs_list)
+    for m in round_3.next_round():
+        first_player = m[0]['Nom de famille']
+        second_player = m[1]['Nom de famille']
+        match = Match(m, first_player, second_player, tournament.player_list)
+        match_result = match.match_result_
+        round.endgame_date_time()
+    tournament.round_instance_list(round_2)
+    round_3.sort_list_ranking_and_score()
+    print(round_3.sort_list_ranking_and_score())
