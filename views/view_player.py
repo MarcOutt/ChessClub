@@ -11,7 +11,8 @@ class ViewPlayer:
                 "5 - Ajouter le classement\n"
                 "6 - Revenir au menu principal")
 
-            user = input("\nVeuillez entrez votre choix : \n")
+            user = input("\nVeuillez entrez votre choix : "
+                         "\n")
             try:
                 return int(user)
             except ValueError:

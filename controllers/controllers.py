@@ -14,28 +14,30 @@ class Controller:
         self.view_player = view_player
 
     def run_app(self):
-        answer = self.view.main_menu()
-        try:
-            int(answer)
-            if answer == 1:
-                answer = self.view.manager_menu()
-                try:
-                    answer_int = int(answer)
-                    if answer_int == 1:
-                        self.create_tournament()
-                    elif answer_int == 2:
-                        print("ok")
-                        self.add_player()
-                except ValueError:
-                    print("Veuillez mettre un chiffre")
-                    self.view.manager_menu()
+        while True:
+            answer = self.view.main_menu()
+            try:
+                int(answer)
+                if answer == 1:
+                    self.run_manager_menu()
 
-            elif answer == 2:
-                self.view_admin.menu_admin()
+            except ValueError:
+                print("Veuillez mettre un chiffre")
+                self.view.manager_menu()
 
-        except ValueError:
-            print("Veuillez répondre par des chiffres\n")
-            self.run_app()
+    def run_manager_menu(self):
+
+            answer = self.view.manager_menu()
+            try:
+                answer_int = int(answer)
+                if answer_int == 1:
+                    self.create_tournament()
+                elif answer_int == 2:
+                    print("ok")
+                    self.add_player()
+            except TypeError:
+                print("Attention : vous n'avez pas renseigné le nombre de joueurs dans le menu tournoi")
+                self.view.manager_menu()
 
     def create_tournament(self):
 
@@ -50,7 +52,7 @@ class Controller:
                 self.tournament.location = self.sub_menu_tournament(name, answer)
             elif answer_tournament_int == 3:
                 name, answer = self.view_tournament.get_number_round()
-                self.tournament.number_rounds = self.sub_menu_tournament(name, answer)
+                self.tournament.number_rounds = int(self.sub_menu_tournament(name, answer))
             elif answer_tournament_int == 4:
                 name, answer = self.view_tournament.get_number_players()
                 self.tournament.number_players = int(self.sub_menu_tournament(name, answer))
@@ -73,7 +75,9 @@ class Controller:
                 name, answer = self.view_tournament.get_description()
                 self.tournament.description = self.sub_menu_tournament(name, answer)
             elif answer_tournament_int == 7:
-                self.run_app()
+                print(self.tournament)
+            elif answer_tournament_int == 8:
+                self.run_manager_menu()
 
     def sub_menu_tournament(self, name, answer):
         try:
@@ -87,6 +91,7 @@ class Controller:
             self.sub_menu_tournament(name, answer)
 
     def add_player(self):
+        print(self.tournament.number_players)
         for _ in range(self.tournament.number_players):
             print("\nAjouter joueur\n")
             answer_menu_player = self.view_player.menu_player()
@@ -113,13 +118,15 @@ class Controller:
                 except ValueError:
                     print("Veuillez répondre par un chiffre")
             elif answer_menu_player_int == 6:
-                self.run_app()
+                self.sort_list_ranking_and_score()
+                print(self.tournament.players)
+            elif answer_menu_player_int == 7:
+                self.run_manager_menu()
 
-"""
     def sort_list_ranking_and_score(self):
-        self.players = sorted(self.players, key=lambda players: players['Classement'], reverse=False)
-        self.players = sorted(self.players, key=lambda players: players['Score'], reverse=True)
-        return self.players
+        self.tournament.players = sorted(self.tournament.players, key=lambda players: players['Classement'], reverse=False)
+        self.tournament.players = sorted(self.tournament.players, key=lambda players: players['Score'], reverse=True)
+
 
     def matchs_round_1(self):
         # création des listes niveaux haut et bas
@@ -215,4 +222,4 @@ class Controller:
             for j in range(i + 1, len(array)):
                 results.append(array[i] + array[j])
 
-        return results"""
+        return results
