@@ -14,8 +14,8 @@ from views.view_tournament import ViewTournament
 def main():
     match = Match()
     view_tournament = ViewTournament()
-    view_admin = ViewAdmin
-    view_player = ViewPlayer
+    view_admin = ViewAdmin()
+    view_player = ViewPlayer()
     player = Player()
     round = Round()
     view = View()

@@ -1,16 +1,16 @@
 from datetime import date, datetime
 
 class Round:
-    def __init__(self, name: str = "", end_date: str = None, end_time: str = None, matchs: list = None):
+    def __init__(self, name: str = "", ending_date: str = None, ending_time: str = None, matchs: list = None,
+                 ):
         if matchs is None:
             matchs = []
         self.name = name
-        self.start_date = date.today()
         now = datetime.now()
-        self.start_time = now.strftime("%H:%M:%S")
-        self.end_date = end_date
-        self.end_time = end_time
-
+        self.starting_date = now.strftime("%d %b %Y")
+        self.starting_time = now.strftime("%Hh%Mm%Ss")
+        self.ending_date = ending_date
+        self.ending_time = ending_time
         self.matchs = matchs
 
     def __repr__(self):
