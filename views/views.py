@@ -25,13 +25,9 @@ class View:
                 "4 - Lancer le round suivant\n"
                 "5 - Rentrer les résultats des rencontres\n"  # faire la selection de quel match pour mettre le résultat
                 "6 - Voir le classement du tournoi\n"
-                "7 - Sortir du programme")
-            user = input("\nVeuillez entrez votre choix : \n")
-            try:
-                return int(user)
-            except ValueError:
-                print("Veuillez répondre par des chiffres\n")
-                self.manager_menu()
+                "7 - Afficher les joueurs\n"
+                "8 - Sortir du programme")
+            return input("\nVeuillez entrez votre choix : \n")
 
     def first_round_view(self):
         print("\n\nPREMIER TOUR\n\n"
@@ -40,19 +36,18 @@ class View:
               "2 - Finir le tour\n"
               "3 - Afficher les informations du tour\n"
               "4 - Retour")
-        answer = input("\nVeuillez entrez votre choix : ")
-        try:
-            return int(answer)
-        except ValueError:
-            print("pas bon")
-            print("Veuillez répondre par des chiffres\n")
-            self.manager_menu()
+        return input("\nVeuillez entrez votre choix : ")
 
-    def enter_result(self, match):
-        menu = True
-        while menu:
-            print(" Veuillez choisir le match afin de rentrer ses résultats")
-            i = 1
-            print(f"{i} - {match}\n")
+    def menu_result(self, matchs):  # sourcery skip: hoist-statement-from-loop
+        print(" Veuillez choisir le match afin de rentrer ses résultats")
+        for match in matchs:
+            print(f"{matchs.index(match) + 1} - Mme/M {match[0]['Nom de famille']} VS Mme/M {match[1]['Nom de famille']}\n")
+        print("0 - Précédent")
+        return input("\nVeuillez entrez votre choix : \n")
 
-            user = input("\nVeuillez entrez votre choix : \n")
+    def enter_result(self, first_player, second_player):
+        print("Quelle est le résultat de la partie ? \n"
+              f"Si M/Mme {first_player} a gagné(e), tapé 1\n"
+              f"Si M/Mme {second_player} a gagné(e), tapé 2\n"
+              f"Si match nul, tapé 3")
+        return input("Match result : Veuillez indiquer votre choix : ")

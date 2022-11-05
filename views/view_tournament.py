@@ -4,7 +4,7 @@ class ViewTournament:
         print("\n\n     Menu Tournoi\n\n"
               "1 - Ajouter le nom du tournoi \n"
               "2 - Ajouter le lieu\n"
-              "3 - Choisissez le nombre de tour (par défaut il est à 4)\n"
+              "3 - Choisissez le nombre de tour (par défaut, il est réglé à 4)\n"
               "4 - Choisissez le nombre de joueurs\n"
               "5 - Choisissez le type de contrôle de temps\n"
               "6 - Ajouter la description du tournoi\n"
@@ -18,7 +18,7 @@ class ViewTournament:
               "1 - Oui \n"
               "2 - Non \n")
         answer = input("--> ")
-        return name, answer
+        return name.capitalize(), answer
 
     def get_location_tournament(self):
         location = input("Quelle est le lieu du tournoi? ")
@@ -26,7 +26,7 @@ class ViewTournament:
               "1 - Oui \n"
               "2 - Non \n")
         answer = input("--> ")
-        return location, answer
+        return location.capitalize(), answer
 
     def get_number_round(self):
         number_round = input("Quelle est le nombre de tour? ")
@@ -54,4 +54,4 @@ class ViewTournament:
               "1 - Oui \n"
               "2 - Non \n")
         answer = input("--> ")
-        return description, answer
+        return description.capitalize(), answer

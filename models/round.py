@@ -11,7 +11,7 @@ class Round:
         self.starting_time = now.strftime("%Hh%Mm%Ss")
         self.ending_date = ending_date
         self.ending_time = ending_time
-        self.matchs = matchs
+        self.matchs = []
 
     def __repr__(self):
         return str(self.__dict__)
