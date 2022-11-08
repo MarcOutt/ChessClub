@@ -11,12 +11,16 @@ class Round:
         self.starting_time = now.strftime("%Hh%Mm%Ss")
         self.ending_date = ending_date
         self.ending_time = ending_time
-        self.matchs = []
+        self.matchs = matchs
 
     def __repr__(self):
-        return str(self.__dict__)
+        return f"Tour numéro {self.name}\n" \
+               f"Début du tour: {self.starting_date} à {self.starting_time}\n" \
+               f"Fin du tour: {self.ending_date} à {self.ending_time}\n" \
+               f"Rencontres: {self.matchs}\n"
 
     def endgame_date_time(self):
         self.end_date = date.today()
         now = datetime.now()
         self.end_time = now.strftime("%H:%M:%S")
+

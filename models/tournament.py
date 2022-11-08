@@ -3,7 +3,7 @@ from datetime import date
 
 class Tournament:
     def __init__(self, name: str = None, location: str = None, players: list = None,
-                 number_players: int = 6, description: str = None, number_rounds: int = 4, time_control: str = None):
+                 number_players: int = 2, description: str = None, number_rounds: int = 2, time_control: str = None):
         if players is None:
             players = []
         self.name = name
@@ -27,9 +27,8 @@ class Tournament:
                f"Description : {self.description} \n" \
                f"Liste des joueurs: {self.players}"
 
-
     def __repr__(self):
-        return str(self.players)
+        return str(self.round_instance)
 
     def round_instance_list(self, round):
         self.round_instance.append(round)
