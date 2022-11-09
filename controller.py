@@ -16,6 +16,7 @@ class Controller:
 
         self.counter_round = 0
         self.matchs = []
+        self.round = []
 
     def run(self):
         """Lance l'application"""
@@ -40,23 +41,19 @@ class Controller:
         print(self.tournament.players)
 
     def sort_list_ranking_and_score(self):
-        self.tournament.players = sorted(self.tournament.players, key=lambda players: players['Classement'],
-                                         reverse=False)
-        self.tournament.players = sorted(self.tournament.players, key=lambda players: players['Score'], reverse=True)
+        self.tournament.players = sorted(self.tournament.players, key=lambda player: player['ranking'], reverse=False)
+        self.tournament.players = sorted(self.tournament.players, key=lambda player: player['score'], reverse=True)
         return self.tournament.players
 
     def run_first_round(self):
+        self.counter_round += 1
         self.matchs = self.launch_first_round()
-        now = datetime.now()
-        name = "1"
-        ending_date = now.strftime("%d %b %Y")
-        ending_time = now.strftime("%Hh%Mm%Ss")
-        round = Round(name=name, ending_date=ending_date, ending_time=ending_time, matchs=self.matchs)
+        name = f"{self.counter_round}"
+        self.round = Round(name=name, matchs=self.matchs)
         self.tournament.round_instance_list(round)
         self.view.screen_matchs(self.matchs)
 
     def launch_first_round(self):  # sourcery skip: extract-method
-        self.counter_round += 1
         if self.counter_round == 1:
             # création des listes niveaux haut et bas
             self.sort_list_ranking_and_score()
@@ -77,11 +74,8 @@ class Controller:
     def run_next_round(self):
         players = self.tournament.players[:]
         self.matchs = self.launch_matchs(players)
-        now = datetime.now()
         name = f"Round {self.counter_round}"
-        ending_date = now.strftime("%d %b %Y")
-        ending_time = now.strftime("%Hh%Mm%Ss")
-        round = Round(name=name, ending_date=ending_date, ending_time=ending_time, matchs=self.matchs)
+        self.round = Round(name=name, matchs=self.matchs)
         self.tournament.round_instance_list(round)
         self.view.screen_matchs(self.matchs)
 
@@ -114,13 +108,21 @@ class Controller:
                         print("Le tournoi est fini")
             return matchs
 
+    def end_round(self):
+        # protégé le end-round avec une variable pour dire que le round est en cours ou pas
+        now = datetime.now()
+        self.round.ending_date = now.strftime("%d %b %Y")
+        self.round.ending_time = now.strftime("%Hh%Mm%Ss")
+        self.tournament.round_instance_list(self.round)
+        print(self.round)
+
     def run_menu_result(self):  # sourcery skip: extract-method
         choice = self.view.get_result(self.matchs)
         try:
             choice_int = int(choice)
             if choice_int in range(1, len(self.matchs)+1):
-                player_1 = self.matchs[choice_int - 1][0]["Nom de famille"]
-                player_2 = self.matchs[choice_int - 1][1]["Nom de famille"]
+                player_1 = self.matchs[choice_int - 1][0]["lastname"]
+                player_2 = self.matchs[choice_int - 1][1]["lastname"]
                 choice = self.view.enter_result(player_1=player_1, player_2=player_2)
                 score_player_1, score_player_2 = self.enter_result(choice=choice)
                 player_1_with_score, player_2_with_score = self.result(player_1=player_1, player_2=player_2,
@@ -137,16 +139,17 @@ class Controller:
             self.run_menu_result()
 
     def enter_result(self, choice: int):
+        # sourcery skip: remove-unnecessary-cast
         try:
             score_player_1 = 0
             score_player_2 = 0
-            if choice == 1:
+            if int(choice) == 1:
                 score_player_1 = 1
                 score_player_2 = 0
-            elif choice == 2:
+            elif int(choice) == 2:
                 score_player_1 = 0
                 score_player_2 = 1
-            elif choice == 3:
+            elif int(choice) == 3:
                 score_player_1 = 0.5
                 score_player_2 = 0.5
             return score_player_1, score_player_2
@@ -167,14 +170,21 @@ class Controller:
     def add_score(self, player_1, player_2):
         # sourcery skip: extract-duplicate-method, inline-immediately-returned-variable
         winner = ""
+        print(self.tournament.players)
         for player in self.tournament.players:
-            if player["Nom de famille"] == player_1[0]:
-                player["Score"] += player_1[1]
+            print(player)
+            print(player["lastname"], player_1[0])
+            if player["lastname"] == player_1[0]:
+                player["score"] += player_1[1]
+                print(player["score"], player_1[1])
                 winner = player_1[0]
-            if player["Nom de famille"] == player_2[0]:
-                player["Score"] += player_2[1]
+            if player["lastname"] == player_2[0]:
+                player["score"] += player_2[1]
                 winner = player_2[0]
-            return winner
+        print("score ajouté:", self.tournament.players)
+        return winner
+
+
 
     def get_report(self, choice):
         if choice == 1:

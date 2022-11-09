@@ -1,6 +1,5 @@
 import datetime
 
-
 class MainView():
 
     def __init__(self, controller):
@@ -117,8 +116,9 @@ class MainView():
             choice = input("\n\n 1. Lancer le 1er tour \n"
                            " 2. Lancer le tour suivant \n"
                            " 3. Entrer les résultats des matchs\n"
-                           " 4. Afficher le classement\n"
-                           " 5. Exit \n"
+                           " 4. Finir le tour\n"
+                           " 5. Afficher le classement\n"
+                           " 6. Exit \n"
                            "--> ")
             try:
                 choice_int = int(choice)
@@ -129,21 +129,23 @@ class MainView():
                 elif choice_int == 3:
                     self.controller.run_menu_result()
                 elif choice_int == 4:
+                    self.controller.end_round()
+                elif choice_int == 5:
                     self.screen_ranking()
             except ValueError:
                 print("Veuillez répondre par un chiffre correspondant à votre choix.")
 
     def screen_matchs(self, matchs):
-        print("\nLes matchs pour ce tour sont : ")  # Est-ce que je dois le mettre dans la vue
+        print("\nLes matchs pour ce tour sont : ")
 
         for match in matchs:
-            print(f"Mme/M {match[0]['Nom de famille']} vs Mme/M {match[1]['Nom de famille']}", end="\n")
+            print(f"Mme/M {match[0]['lastname']} vs Mme/M {match[1]['lastname']}", end="\n")
 
     def get_result(self, matchs):
         print(" Veuillez choisir le match afin de rentrer ses résultats")
         for match in matchs:
             print(
-                f"{matchs.index(match) + 1}. Mme/M {match[0]['Nom de famille']} VS Mme/M {match[1]['Nom de famille']}")
+                f"{matchs.index(match) + 1}. Mme/M {match[0]['lastname']} VS Mme/M {match[1]['lastname']}")
         print("0. Précédent")
         return input("\nVeuillez entrez votre choix : \n")
 
@@ -157,8 +159,8 @@ class MainView():
     def screen_ranking(self):
         players = self.controller.sort_list_ranking_and_score()  # est-ce que je dois créer une fonction ?
         for player in players:
-            print(f"Nom de famille : {player['Nom de famille']}, classé: {player['Classement']} "
-                  f"avec un score de : {player['Score']} ")
+            print(f"Nom de famille : {player['lastname']}, classé: {player['ranking']} "
+                  f"avec un score de : {player['score']} ")
 
     def menu_get_report(self):
         print("Affichage des rapports\n")

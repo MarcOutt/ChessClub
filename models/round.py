@@ -1,8 +1,11 @@
 from datetime import date, datetime
 
 class Round:
-    def __init__(self, name: str = "", ending_date: str = None, ending_time: str = None, matchs: list = None,
-                 ):
+    def __init__(self, name: str = "", ending_date: list = None, ending_time: list = None, matchs: list = None):
+        if ending_date is None:
+            ending_date = []
+        if ending_time is None:
+            ending_date = []
         if matchs is None:
             matchs = []
         self.name = name

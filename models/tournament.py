@@ -12,7 +12,10 @@ class Tournament:
         self.number_rounds = number_rounds
         self.tournee = ""
         self.number_players = number_players
-        self.players = players
+        self.players = [{'lastname': 'toto', 'firstname': 'toto', 'birthday': '11-11-1111', 'gender': 'Féminin', 'ranking': '4', 'score': 0},
+           {'lastname': 'tutu', 'firstname': 'tutu', 'birthday': '11-11-1111', 'gender': 'Masculin', 'ranking': '3', 'score': 0},
+           {'lastname': 'titi', 'firstname': 'toto', 'birthday': '11-11-1111', 'gender': 'Féminin', 'ranking': '2', 'score': 0},
+           {'lastname': 'tata', 'firstname': 'tutu', 'birthday': '11-11-1111', 'gender': 'Masculin', 'ranking': '1', 'score': 0}]
         self.time_control = time_control
         self.description = description
         self.round_instance = []
