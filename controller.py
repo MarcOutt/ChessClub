@@ -17,6 +17,8 @@ class Controller:
         self.counter_round = 0
         self.matchs = []
         self.round = []
+        self.round_in_progress = 0
+        self.put_result = 0
 
     def run(self):
         """Lance l'application"""
@@ -46,15 +48,25 @@ class Controller:
         return self.tournament.players
 
     def run_first_round(self):
-        self.counter_round += 1
-        self.matchs = self.launch_first_round()
-        name = f"{self.counter_round}"
-        self.round = Round(name=name, matchs=self.matchs)
-        self.tournament.round_instance_list(round)
-        self.view.screen_matchs(self.matchs)
+        if self.round_in_progress == 0:
+            if self.put_result == 0:
+                self.round_in_progress = 1
+                self.counter_round += 1
+                self.matchs = self.launch_first_round()
+                name = f"{self.counter_round}"
+                self.round = Round(name=name, matchs=self.matchs)
+                self.tournament.round_instance_list(round)
+                self.view.screen_matchs(self.matchs)
+            else:
+                print("Vous n'avez pas entré les résultats du tour précédent")
+        else:
+            print("Un tour est en cours")
+            self.view.menu_tournament()
 
     def launch_first_round(self):  # sourcery skip: extract-method
-        if self.counter_round == 1:
+        if self.counter_round > self.tournament.number_rounds:
+            print("\n\n      Le tournoi est fini")
+        elif self.counter_round == 1:
             # création des listes niveaux haut et bas
             self.sort_list_ranking_and_score()
             half = len(self.tournament.players) // 2
@@ -69,24 +81,32 @@ class Controller:
             print("Le premier tour a déjà été effectué! \n"
                   "Veuillez lancer le tour suivant.")
             self.counter_round -= 1
-        self.run_first_round()
+        self.view.menu_tournament()
 
     def run_next_round(self):
-        players = self.tournament.players[:]
-        self.matchs = self.launch_matchs(players)
-        name = f"Round {self.counter_round}"
-        self.round = Round(name=name, matchs=self.matchs)
-        self.tournament.round_instance_list(round)
-        self.view.screen_matchs(self.matchs)
+        if self.counter_round > self.tournament.number_rounds:
+            print("\n\n      Le tournoi est fini")
+        elif self.round_in_progress == 0:
+            if self.put_result == 0:
+                self.round_in_progress = 1
+                players = self.tournament.players[:]
+                self.matchs = self.launch_matchs(players)
+                name = f"Round {self.counter_round}"
+                self.round = Round(name=name, matchs=self.matchs)
+                self.tournament.round_instance_list(round)
+                self.view.screen_matchs(self.matchs)
+            else:
+                print("Veuillez rentrer les résultats avant de lancer le tour suivant")
+        else:
+            print("Un tour est en cours")
+        self.view.menu_tournament()
 
     def launch_matchs(self, players, matchs=None):
         # sourcery skip: extract-duplicate-method
         if matchs is None:
             matchs = []
         self.counter_round += 1
-        if self.counter_round > self.tournament.number_rounds:
-            print("Le tournoi est fini")
-        elif self.counter_round <= 1:
+        if self.counter_round <= 1:
             print("Veuillez lancer le 1er round")
             self.view.menu_tournament()
         else:
@@ -104,25 +124,25 @@ class Controller:
                         players.remove(players[0])
                         players.remove(players[1])
                         self.launch_matchs(players, matchs)
-                    if self.counter_round == self.tournament.number_rounds:
-                        print("Le tournoi est fini")
             return matchs
 
     def end_round(self):
-        # protégé le end-round avec une variable pour dire que le round est en cours ou pas
-        now = datetime.now()
-        self.round.ending_date = now.strftime("%d %b %Y")
-        self.round.ending_time = now.strftime("%Hh%Mm%Ss")
-        self.tournament.round_instance_list(self.round)
-        print(self.round)
+        if self.round_in_progress == 1:
+            now = datetime.now()
+            self.round.ending_date = now.strftime("%d %b %Y")
+            self.round.ending_time = now.strftime("%Hh%Mm%Ss")
+            self.tournament.round_instance_list(self.round)
+            self.put_result = 1
+            self.round_in_progress = 0
+            print(self.round)  # ne s'affiche pas correctement
+        else:
+            print("Aucun tour n'est en cours")
 
     def run_menu_result(self):  # sourcery skip: extract-method
-        choice = self.view.get_result(self.matchs)
-        try:
-            choice_int = int(choice)
-            if choice_int in range(1, len(self.matchs)+1):
-                player_1 = self.matchs[choice_int - 1][0]["lastname"]
-                player_2 = self.matchs[choice_int - 1][1]["lastname"]
+        if self.put_result == 1:
+            for match in self.matchs:
+                player_1 = match[0]["lastname"]
+                player_2 = match[1]["lastname"]
                 choice = self.view.enter_result(player_1=player_1, player_2=player_2)
                 score_player_1, score_player_2 = self.enter_result(choice=choice)
                 player_1_with_score, player_2_with_score = self.result(player_1=player_1, player_2=player_2,
@@ -131,13 +151,11 @@ class Controller:
                 match_result = self.get_match_result(player_1=player_1_with_score, player_2=player_2_with_score)
                 winner = self.add_score(player_1=player_1_with_score, player_2=player_2_with_score)
                 match = Match(player_1=player_1, player_2=player_2, match_result=match_result, winner=winner)
-            elif choice_int == 0:
-                self.view.menu_tournament()
-            self.run_menu_result()
-        except ValueError:
-            print("Veuillez répondre par un chiffre correspondant à votre choix.")
-            self.run_menu_result()
-
+                self.put_result = 0
+                if self.counter_round == self.tournament.number_rounds:
+                    print("Le tournoi est fini")
+        else:
+            print("Le tour n'est pas encore fini ou commencé")
     def enter_result(self, choice: int):
         # sourcery skip: remove-unnecessary-cast
         try:
@@ -170,21 +188,14 @@ class Controller:
     def add_score(self, player_1, player_2):
         # sourcery skip: extract-duplicate-method, inline-immediately-returned-variable
         winner = ""
-        print(self.tournament.players)
         for player in self.tournament.players:
-            print(player)
-            print(player["lastname"], player_1[0])
             if player["lastname"] == player_1[0]:
                 player["score"] += player_1[1]
-                print(player["score"], player_1[1])
                 winner = player_1[0]
             if player["lastname"] == player_2[0]:
                 player["score"] += player_2[1]
                 winner = player_2[0]
-        print("score ajouté:", self.tournament.players)
         return winner
-
-
 
     def get_report(self, choice):
         if choice == 1:

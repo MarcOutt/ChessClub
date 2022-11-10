@@ -115,8 +115,8 @@ class MainView():
         while True:
             choice = input("\n\n 1. Lancer le 1er tour \n"
                            " 2. Lancer le tour suivant \n"
-                           " 3. Entrer les résultats des matchs\n"
-                           " 4. Finir le tour\n"
+                           " 3. Finir le tour\n"
+                           " 4. Entrer les résultats des matchs\n"
                            " 5. Afficher le classement\n"
                            " 6. Exit \n"
                            "--> ")
@@ -127,9 +127,9 @@ class MainView():
                 elif choice_int == 2:
                     self.controller.run_next_round()
                 elif choice_int == 3:
-                    self.controller.run_menu_result()
-                elif choice_int == 4:
                     self.controller.end_round()
+                elif choice_int == 4:
+                    self.controller.run_menu_result()
                 elif choice_int == 5:
                     self.screen_ranking()
             except ValueError:
@@ -183,3 +183,5 @@ class MainView():
     def screen_all_rounds(self):
         for round in self.controller.tournament.round_instance:
             print(round)
+
+

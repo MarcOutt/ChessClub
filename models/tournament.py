@@ -3,7 +3,7 @@ from datetime import date
 
 class Tournament:
     def __init__(self, name: str = None, location: str = None, players: list = None,
-                 number_players: int = 2, description: str = None, number_rounds: int = 2, time_control: str = None):
+                 number_players: int = 2, description: str = None, number_rounds: int = 1, time_control: str = None):
         if players is None:
             players = []
         self.name = name

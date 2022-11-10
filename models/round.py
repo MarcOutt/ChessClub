@@ -16,11 +16,12 @@ class Round:
         self.ending_time = ending_time
         self.matchs = matchs
 
-    def __repr__(self):
-        return f"Tour numéro {self.name}\n" \
-               f"Début du tour: {self.starting_date} à {self.starting_time}\n" \
-               f"Fin du tour: {self.ending_date} à {self.ending_time}\n" \
-               f"Rencontres: {self.matchs}\n"
+    def __str__(self):
+        for match in self.matchs:
+            return f"Tour numéro {self.name}\n" \
+                   f"Début du tour: {self.starting_date} à {self.starting_time}\n" \
+                   f"Fin du tour: {self.ending_date} à {self.ending_time}\n" \
+                   f"Rencontres: \n{match}\n"
 
     def endgame_date_time(self):
         self.end_date = date.today()

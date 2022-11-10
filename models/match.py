@@ -11,7 +11,7 @@ class Match:
         self.match_result = match_result
         self.winner = winner
 
-    def __repr__(self):
+    def __str__(self):
         return f"Rencontre entre M/Mme {self.match_result[0]['Nom de famille']} et M/Mme " \
                f"{self.match_result[1]['Nom de famille']}\n" \
                f"Le gagnant du match est : {self.winner}"
