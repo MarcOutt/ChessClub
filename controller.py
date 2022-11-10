@@ -29,7 +29,7 @@ class Controller:
 
     def add_tournament(self, name: str, location: str, number_rounds: int, number_players: int, time_control: str,
                        description: str):
-        """Permet de créer un tournoi"""
+        """Crée un tournoi"""
         self.tournament.name = name
         self.tournament.location = location
         self.tournament.number_rounds = number_rounds
@@ -39,20 +39,23 @@ class Controller:
 
     def add_player(self, lastname: str, firstname: str, birthday: str, gender: str, ranking: int):
         player = Player(lastname=lastname, firstname=firstname, birthday=birthday, gender=gender, ranking=ranking)
+        """Ajoute le joueur dans le tournoi"""
         self.tournament.players.append(player)
         print(self.tournament.players)
 
     def sort_list_ranking_and_score(self):
+        """Trie les joueurs en fonction de leur score et de leur classement"""
         self.tournament.players = sorted(self.tournament.players, key=lambda player: player['ranking'], reverse=False)
         self.tournament.players = sorted(self.tournament.players, key=lambda player: player['score'], reverse=True)
         return self.tournament.players
 
     def run_first_round(self):
+        """Lance le 1er tour"""
         if self.round_in_progress == 0:
             if self.put_result == 0:
                 self.round_in_progress = 1
                 self.counter_round += 1
-                self.matchs = self.launch_first_round()
+                self.matchs = self.launch_first_matchs()
                 name = f"{self.counter_round}"
                 self.round = Round(name=name, matchs=self.matchs)
                 self.tournament.round_instance_list(round)
@@ -63,7 +66,8 @@ class Controller:
             print("Un tour est en cours")
             self.view.menu_tournament()
 
-    def launch_first_round(self):  # sourcery skip: extract-method
+    def launch_first_matchs(self):  # sourcery skip: extract-method
+        """Lance les matchs du 1er tour"""
         if self.counter_round > self.tournament.number_rounds:
             print("\n\n      Le tournoi est fini")
         elif self.counter_round == 1:
@@ -84,6 +88,7 @@ class Controller:
         self.view.menu_tournament()
 
     def run_next_round(self):
+        """Lance les tours suivants"""
         if self.counter_round > self.tournament.number_rounds:
             print("\n\n      Le tournoi est fini")
         elif self.round_in_progress == 0:
@@ -102,6 +107,7 @@ class Controller:
         self.view.menu_tournament()
 
     def launch_matchs(self, players, matchs=None):
+        """Lance les matchs"""
         # sourcery skip: extract-duplicate-method
         if matchs is None:
             matchs = []
@@ -127,6 +133,7 @@ class Controller:
             return matchs
 
     def end_round(self):
+        """Fini le tour"""
         if self.round_in_progress == 1:
             now = datetime.now()
             self.round.ending_date = now.strftime("%d %b %Y")
@@ -139,6 +146,7 @@ class Controller:
             print("Aucun tour n'est en cours")
 
     def run_menu_result(self):  # sourcery skip: extract-method
+        """Lance le menu pour entrer les resultats"""
         if self.put_result == 1:
             for match in self.matchs:
                 player_1 = match[0]["lastname"]
@@ -156,7 +164,9 @@ class Controller:
                     print("Le tournoi est fini")
         else:
             print("Le tour n'est pas encore fini ou commencé")
+
     def enter_result(self, choice: int):
+        """Donne le résultat des joueurs de leur match"""
         # sourcery skip: remove-unnecessary-cast
         try:
             score_player_1 = 0
@@ -176,16 +186,19 @@ class Controller:
             self.run_menu_result()
 
     def result(self, player_1: str, player_2: str, score_player_1: float, score_player_2: float):
+        """Lie le score avec le joueur"""
         player_1 = [player_1, score_player_1]
         player_2 = [player_2, score_player_2]
         return player_1, player_2
 
     def get_match_result(self, player_1: list, player_2: list):
+        """Donne le résultat du match"""
         match_result = (player_1, player_2)
         match_result = tuple(match_result)
         return match_result
 
     def add_score(self, player_1, player_2):
+        """Ajoute le score du joueur dans la base de donnée du tournoi"""
         # sourcery skip: extract-duplicate-method, inline-immediately-returned-variable
         winner = ""
         for player in self.tournament.players:

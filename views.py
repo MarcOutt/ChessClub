@@ -7,7 +7,7 @@ class MainView():
         self.main_menu()
 
     def main_menu(self):
-        """Menu principal"""
+        """Affiche le menu principal"""
         while True:
             choice = input(" 1. Créer un tournoi \n"
                            " 2. Ajouter les joueurs au tournoi \n"
@@ -30,7 +30,8 @@ class MainView():
             except ValueError:
                 print("Veuillez répondre par un chiffre correspondant à votre choix.")
 
-    def screen_tournament(self):
+    @staticmethod
+    def screen_tournament():
         """Affiche les informations du tournoi qui vient d'être créé"""
         print("Félicitation, vous avez créer votre un Tournoi")
 
@@ -47,19 +48,24 @@ class MainView():
                                        number_players=number_players, time_control=time_control,
                                        description=description)
 
-    def get_number_players(self):
+    @staticmethod
+    def get_number_players():
+        """Récupère le nombre de joueurs"""
         try:
             return int(input("Quelle est le nombre de joueurs: "))
         except ValueError:
             print("Veuillez répondre par un chiffre correspondant à votre choix.")
 
-    def get_number_rounds(self):
+    @staticmethod
+    def get_number_rounds():
+        """Récupère le nombre de tours"""
         try:
             return int(input("Quelle est le nombre de tours: "))
         except ValueError:
             print("Veuillez répondre par un chiffre correspondant à votre choix.")
 
-    def get_time_control(self):
+    @staticmethod
+    def get_time_control():
         """Permet de récupérer le type de contrôle de temps"""
         time_control = input("Quelle est le type de contrôle de temps: \n"
                              "1. Bullet / 2. Blitz / 3. Coup rapide\n"
@@ -136,20 +142,14 @@ class MainView():
                 print("Veuillez répondre par un chiffre correspondant à votre choix.")
 
     def screen_matchs(self, matchs):
+        """Affiche les matchs"""
         print("\nLes matchs pour ce tour sont : ")
 
         for match in matchs:
             print(f"Mme/M {match[0]['lastname']} vs Mme/M {match[1]['lastname']}", end="\n")
 
-    def get_result(self, matchs):
-        print(" Veuillez choisir le match afin de rentrer ses résultats")
-        for match in matchs:
-            print(
-                f"{matchs.index(match) + 1}. Mme/M {match[0]['lastname']} VS Mme/M {match[1]['lastname']}")
-        print("0. Précédent")
-        return input("\nVeuillez entrez votre choix : \n")
-
     def enter_result(self, player_1, player_2):
+        """Vue pour dire quelle est le résultat"""
         print("Quelle est le résultat de la partie ? \n"
               f"Si M/Mme {player_1} a gagné(e), tapé 1\n"
               f"Si M/Mme {player_2} a gagné(e), tapé 2\n"
@@ -157,12 +157,14 @@ class MainView():
         return input("Match result : Veuillez indiquer votre choix : ")
 
     def screen_ranking(self):
+        """Affiche le classement"""
         players = self.controller.sort_list_ranking_and_score()  # est-ce que je dois créer une fonction ?
         for player in players:
             print(f"Nom de famille : {player['lastname']}, classé: {player['ranking']} "
                   f"avec un score de : {player['score']} ")
 
     def menu_get_report(self):
+        """Affiche le menu des rapports"""
         print("Affichage des rapports\n")
         while True:
             print(
