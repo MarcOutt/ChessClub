@@ -2,7 +2,7 @@ from datetime import date
 
 
 class Tournament:
-    def __init__(self, name: str = None, location: str = None, number_players: int = 1, number_rounds: int = 1,
+    def __init__(self, name: str = "Paris", location: str = "Paris", number_players: int = 1, number_rounds: int = 1,
                  players: list = None, time_control: str = None, description: str = None, rounds_instance=None,
                  matchs: list = None, counter_round: int = 0, round_in_progress: bool = False,
                  check_result: bool = False):
@@ -20,7 +20,7 @@ class Tournament:
         self.number_rounds = number_rounds
         self.time_control = time_control
         self.description = description
-        # self.players = players
+        #self.players = players
         self.players = [{'lastname': 'Toto', 'firstname': 'Toto', 'birthday': '11-11-1111', 'gender': 'Feminin',
                          'ranking': 22, 'score': 0}, {'lastname': 'Tutu', 'firstname': 'Tutu', 'birthday': '11-11-1111',
                                                       'gender': 'Masculin', 'ranking': 33, 'score': 0},
@@ -35,7 +35,7 @@ class Tournament:
                          'score': 0},
                         {'lastname': 'Baba', 'firstname': 'Baba', 'birthday': '11-11-1111', 'gender': 'Masculin',
                          'ranking': 1, 'score': 0}, {'lastname': 'Bobo', 'firstname': 'Bobo', 'birthday': '11-11-1111',
-                                                     'gender': 'Masculin', 'ranking': 3, 'score': 0}]
+                                                    'gender': 'Masculin', 'ranking': 3, 'score': 0}]
         self.rounds_instance = rounds_instance
         self.matchs = matchs
 
@@ -52,18 +52,21 @@ class Tournament:
                f"Description : {self.description} \n" \
                f"Liste des joueurs: {self.players}"
 
+
     def __repr__(self):
         return str(self.__dict__)
 
     def serialized(self):
-        return {"name": self.name, "location": self.location, "date": str(self.date),
+        return {"name": self.name,
+                "location": self.location,
+                "date": str(self.date),
                 "number_players": self.number_players,
                 "number_rounds": self.number_rounds,
                 "time_control": self.time_control,
                 "description": self.description,
-                "players": str(self.players),
+                "players": self.players,
                 "rounds_instance": self.rounds_instance,
-                "matchs": str(self.matchs),
+                "matchs": self.matchs,
                 "counter_round": self.counter_round,
                 "round_in_progress": self.round_in_progress,
                 "check_result": self.check_result}
@@ -78,10 +81,11 @@ class Tournament:
         self.players = serialized['players']
         self.time_control = serialized['time_control']
         self.description = serialized['description']
-        self.rounds_instance = serialized['round_instance']
+        self.rounds_instance = serialized['rounds_instance']
         self.counter_round = serialized['counter_round']
         self.round_in_progress = serialized['round_in_progress']
         self.check_result = serialized['check_result']
+
 
     def round_instance_list(self, round):
         self.rounds_instance.append(round)

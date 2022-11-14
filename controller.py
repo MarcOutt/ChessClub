@@ -31,7 +31,6 @@ class Controller:
 
         self.view = views.MainView(self)
         self.view.screen_tournament()
-        self.save_tournament_table.insert(self.tournament.serialized())
         self.view.menu_tournament()
 
     def add_tournament(self, name: str, location: str, number_rounds: int, number_players: int, time_control: str,
@@ -43,12 +42,18 @@ class Controller:
         self.tournament.number_players = number_players
         self.tournament.time_control = time_control
         self.tournament.description = description
+        self.save_tournament_table.insert(self.tournament.serialized())
 
     def add_player(self, lastname: str, firstname: str, birthday: str, gender: str, ranking: int):
         player = Player(lastname=lastname, firstname=firstname, birthday=birthday, gender=gender, ranking=ranking)
         """Ajoute le joueur dans le tournoi"""
+        print(type(player))
         self.tournament.players.append(player)
-        self.players_table.insert(player.serialized())
+        player_serialized = player.serialized()
+        print(type(player_serialized))
+        print(player_serialized)
+        self.players_table.insert(player_serialized)
+        self.save_tournament_table.insert(self.tournament.serialized())
 
     def sort_list_ranking_and_score(self):
         """Trie les joueurs en fonction de leur score et de leur classement"""
@@ -209,13 +214,22 @@ class Controller:
 
     def save_tournament(self):
         """Sauvegarde tournoi manuelle"""
-        self.save_tournament_table.update({"matchs": [self.tournament.matchs]},
+        self.save_tournament_table.update({"matchs": self.tournament.matchs},
                                           where('name') == self.tournament.name)
-        self.save_tournament_table.update({"rounds_instance": [self.tournament.rounds_instance]},
+        self.save_tournament_table.update({"rounds_instance": self.tournament.rounds_instance},
                                           where('name') == self.tournament.name)
-        self.save_tournament_table.update({"counter_round": [self.tournament.counter_round]},
+        self.save_tournament_table.update({"counter_round": self.tournament.counter_round},
                                           where('name') == self.tournament.name)
-        self.save_tournament_table.update({"round_in_progress": [self.tournament.round_in_progress]},
+        self.save_tournament_table.update({"round_in_progress": self.tournament.round_in_progress},
                                           where('name') == self.tournament.name)
-        self.save_tournament_table.update({"check_result": [self.tournament.check_result]},
+        self.save_tournament_table.update({"check_result": self.tournament.check_result},
                                           where('name') == self.tournament.name)
+
+    def load_tournament(self, tournament_database):
+        self.tournament.unserialized(tournament_database)
+        self.counter_round = self.tournament.counter_round
+        self.check_result = self.tournament.check_result
+        self.round_in_progress = self.tournament.round_in_progress
+        print(self.tournament)
+
+

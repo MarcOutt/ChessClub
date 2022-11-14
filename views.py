@@ -24,10 +24,13 @@ class MainView:
                 choice_int = int(choice)
                 if choice_int == 1:
                     self.create_tournament()
-                    self.add_player()
+                    #self.add_player()
+                    print("Félicitation, vous avez créer votre un Tournoi")
+                    self.menu_tournament()
                     break
                 elif choice_int == 0:
                     self.add_player()
+                    self.menu_tournament()
                     break
                 elif choice_int == 2:
                     if self.controller.tournament.name is None:
@@ -36,17 +39,18 @@ class MainView:
                         break
                 elif choice_int == 3:
                     self.screen_load_tournament()
+                    self.menu_tournament()
                 elif choice_int == 4:
                     self.menu_get_report()
                 elif choice_int == 6:
-                    self.main_menu()
+                    exit()
             except ValueError:
                 print("Veuillez répondre par un chiffre correspondant à votre choix.")
 
     @staticmethod
     def screen_tournament():
         """Affiche les informations du tournoi qui vient d'être créé"""
-        print("Félicitation, vous avez créer votre un Tournoi")
+
 
     def create_tournament(self):
         """ Vue pour la création du tournoi"""
@@ -161,6 +165,8 @@ class MainView:
                     self.screen_ranking()
                 elif choice_int == 5:
                     self.controller.save_tournament()
+                elif choice_int == 6:
+                    self.main_menu()
                     print("Le tournoi a été sauvegardé")
             except ValueError:
                 print("Veuillez répondre par un chiffre correspondant à votre choix.")
@@ -268,6 +274,7 @@ class MainView:
         try:
             choice_int = int(choice)
             tournament_database = self.controller.save_tournament_table.get(doc_id=choice_int)
+            self.controller.load_tournament(tournament_database)
 
         except ValueError:
             print("Veuillez répondre par un chiffre correspondant à votre choix.")
