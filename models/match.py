@@ -15,3 +15,12 @@ class Match:
         return f"Rencontre entre M/Mme {self.match_result[0]['Nom de famille']} et M/Mme " \
                f"{self.match_result[1]['Nom de famille']}\n" \
                f"Le gagnant du match est : {self.winner}"
+
+    def serialized(self):
+        return {"player_1": self.player_1,
+                "player_2": self.player_2,
+                "match_result": self.match_result,
+                "winner": self.winner}
+
+    def __repr__(self):
+        return str(self.__dict__)

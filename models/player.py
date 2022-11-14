@@ -1,4 +1,3 @@
-
 class Player:
     def __init__(self, lastname: str = None, firstname: str = None, birthday=None, gender: str = None,
                  ranking: int = None, score: int = 0):
@@ -18,3 +17,12 @@ class Player:
 
     def __repr__(self):
         return str(self.__dict__)
+
+    def serialized(self):
+        return {"lastname": self.lastname,
+                "firstname": self.firstname,
+                "birthday": str(self.birthday),
+                "gender": self.gender,
+                "ranking": self.ranking,
+                "score": self.score
+                }
