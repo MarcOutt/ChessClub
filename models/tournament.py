@@ -2,7 +2,7 @@ from datetime import date
 
 
 class Tournament:
-    def __init__(self, name: str = "Paris", location: str = "Paris", number_players: int = 1, number_rounds: int = 1,
+    def __init__(self, id_tournament: int = None, name: str = "Paris", location: str = "Paris", number_players: int = 1, number_rounds: int = 1,
                  players: list = None, time_control: str = None, description: str = None, rounds_instance=None,
                  matchs: list = None, counter_round: int = 0, round_in_progress: bool = False,
                  check_result: bool = False):
@@ -12,7 +12,7 @@ class Tournament:
             matchs = []
         if players is None:
             players = []
-
+        self.id = id_tournament
         self.name = name
         self.location = location
         self.date = date.today()
@@ -20,22 +20,22 @@ class Tournament:
         self.number_rounds = number_rounds
         self.time_control = time_control
         self.description = description
-        #self.players = players
-        self.players = [{'lastname': 'Toto', 'firstname': 'Toto', 'birthday': '11-11-1111', 'gender': 'Feminin',
-                         'ranking': 22, 'score': 0}, {'lastname': 'Tutu', 'firstname': 'Tutu', 'birthday': '11-11-1111',
-                                                      'gender': 'Masculin', 'ranking': 33, 'score': 0},
-                        {'lastname': 'Tata', 'firstname': 'Tata', 'birthday':
-                            '11-11-1111', 'gender': 'Masculin', 'ranking': 44, 'score': 0},
-                        {'lastname': 'Fefe', 'firstname': 'Fefe',
-                         'birthday': '11-11-1111', 'gender': 'Masculin', 'ranking': 77, 'score': 0},
-                        {'lastname': 'Fafa',
-                         'firstname': 'Fafa', 'birthday': '22-11-1111', 'gender': 'Feminin', 'ranking': 99, 'score': 0},
-                        {'lastname': 'Rere', 'firstname': 'Rere', 'birthday': '11-11-1111', 'gender': 'Masculin',
-                         'ranking': 99,
-                         'score': 0},
-                        {'lastname': 'Baba', 'firstname': 'Baba', 'birthday': '11-11-1111', 'gender': 'Masculin',
-                         'ranking': 1, 'score': 0}, {'lastname': 'Bobo', 'firstname': 'Bobo', 'birthday': '11-11-1111',
-                                                    'gender': 'Masculin', 'ranking': 3, 'score': 0}]
+        self.players = players
+        #elf.players = [{'lastname': 'Toto', 'firstname': 'Toto', 'birthday': '11-11-1111', 'gender': 'Feminin',
+        #                'ranking': 22, 'score': 0}, {'lastname': 'Tutu', 'firstname': 'Tutu', 'birthday': '11-11-1111',
+        #                                             'gender': 'Masculin', 'ranking': 33, 'score': 0},
+        #               {'lastname': 'Tata', 'firstname': 'Tata', 'birthday':
+        #                   '11-11-1111', 'gender': 'Masculin', 'ranking': 44, 'score': 0},
+        #               {'lastname': 'Fefe', 'firstname': 'Fefe',
+        #                'birthday': '11-11-1111', 'gender': 'Masculin', 'ranking': 77, 'score': 0},
+        #               {'lastname': 'Fafa',
+        #                'firstname': 'Fafa', 'birthday': '22-11-1111', 'gender': 'Feminin', 'ranking': 99, 'score': 0},
+        #               {'lastname': 'Rere', 'firstname': 'Rere', 'birthday': '11-11-1111', 'gender': 'Masculin',
+        #                'ranking': 99,
+        #                'score': 0},
+        #               {'lastname': 'Baba', 'firstname': 'Baba', 'birthday': '11-11-1111', 'gender': 'Masculin',
+        #                'ranking': 1, 'score': 0}, {'lastname': 'Bobo', 'firstname': 'Bobo', 'birthday': '11-11-1111',
+        #                                           'gender': 'Masculin', 'ranking': 3, 'score': 0}]
         self.rounds_instance = rounds_instance
         self.matchs = matchs
 
@@ -69,7 +69,8 @@ class Tournament:
                 "matchs": self.matchs,
                 "counter_round": self.counter_round,
                 "round_in_progress": self.round_in_progress,
-                "check_result": self.check_result}
+                "check_result": self.check_result,
+                "tournament_id": self.id}
 
     def unserialized(self, serialized):
         self.name = serialized['name']
@@ -85,7 +86,7 @@ class Tournament:
         self.counter_round = serialized['counter_round']
         self.round_in_progress = serialized['round_in_progress']
         self.check_result = serialized['check_result']
-
+        self.id = serialized['tournament_id']
 
     def round_instance_list(self, round):
         self.rounds_instance.append(round)

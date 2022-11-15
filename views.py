@@ -24,7 +24,7 @@ class MainView:
                 choice_int = int(choice)
                 if choice_int == 1:
                     self.create_tournament()
-                    #self.add_player()
+                    self.add_player()
                     print("Félicitation, vous avez créer votre un Tournoi")
                     self.menu_tournament()
                     break
@@ -103,8 +103,8 @@ class MainView:
             print(f"\nAjout du joueur {i + 1} sur {int(self.controller.tournament.number_players)}")
             lastname = input("Ajouter le nom de famille: ").capitalize()
             firstname = input("Ajouter le prénom: ").capitalize()
-            birthday = self.get_birthday()
-            gender = self.get_gender()
+            birthday = 11-11-1111 #self.get_birthday()
+            gender = "homme" #self.get_gender()
             ranking = self.get_ranking()
             self.controller.add_player(lastname=lastname, firstname=firstname, birthday=birthday, gender=gender,
                                        ranking=ranking)
@@ -171,12 +171,9 @@ class MainView:
             except ValueError:
                 print("Veuillez répondre par un chiffre correspondant à votre choix.")
 
-    def screen_matchs(self, matchs):
+    def screen_matchs(self):
         """Affiche les matchs"""
-        print(f"\nTour {self.controller.counter_round}\n"
-              "\nLes matchs pour ce tour sont : ")
-        for match in matchs:
-            print(f"Mme/M {match[0]['lastname']} vs Mme/M {match[1]['lastname']}", end="\n")
+        print('test')
 
     @staticmethod
     def enter_result(player_1, player_2):

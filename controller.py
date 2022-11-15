@@ -42,18 +42,17 @@ class Controller:
         self.tournament.number_players = number_players
         self.tournament.time_control = time_control
         self.tournament.description = description
-        self.save_tournament_table.insert(self.tournament.serialized())
+        self.tournament.id = self.save_tournament_table.insert(self.tournament.serialized())
+        self.save_tournament_table.update({'id': self.tournament.id}, doc_ids=[self.tournament.id])
 
     def add_player(self, lastname: str, firstname: str, birthday: str, gender: str, ranking: int):
         player = Player(lastname=lastname, firstname=firstname, birthday=birthday, gender=gender, ranking=ranking)
         """Ajoute le joueur dans le tournoi"""
-        print(type(player))
-        self.tournament.players.append(player)
-        player_serialized = player.serialized()
-        print(type(player_serialized))
-        print(player_serialized)
-        self.players_table.insert(player_serialized)
-        self.save_tournament_table.insert(self.tournament.serialized())
+        self.tournament.players.append(player.serialized())
+        player.player_id = self.players_table.insert(player.serialized())
+        print(player.player_id)
+        self.players_table.update({'id': player.player_id}, doc_ids=[player.player_id])
+        self.save_tournament_table.update(self.tournament.serialized(), doc_ids=[self.tournament.id])
 
     def sort_list_ranking_and_score(self):
         """Trie les joueurs en fonction de leur score et de leur classement"""
@@ -78,8 +77,8 @@ class Controller:
                 self.matchs = self.launch_matchs(players)
             name = f"Round {self.counter_round}"
             self.round = Round(name=name, matchs=self.matchs)
+            self.view.screen_matchs()
             self.tournament.round_instance_list(self.round.serialized())
-            self.view.screen_matchs(self.matchs)
         else:
             print("Veuillez rentrer les résultats avant de lancer le tour suivant")
 
@@ -231,5 +230,3 @@ class Controller:
         self.check_result = self.tournament.check_result
         self.round_in_progress = self.tournament.round_in_progress
         print(self.tournament)
-
-
