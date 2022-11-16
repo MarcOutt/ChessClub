@@ -79,7 +79,7 @@ class Controller:
         else:
             print("Veuillez rentrer les résultats avant de lancer le tour suivant")
 
-    def launch_first_matchs(self):  # sourcery skip: extract-method
+    def launch_first_matchs(self):
         """Lance les matchs du 1er tour"""
         if self.tournament.counter_round > self.tournament.number_rounds:
             print("\n\n      Le tournoi est fini")
@@ -102,7 +102,6 @@ class Controller:
 
     def launch_matchs(self, players, matchs=None):
         """Lance les matchs"""
-        # sourcery skip: extract-duplicate-method
         if matchs is None:
             matchs = []
         if self.tournament.counter_round <= 1:
@@ -112,18 +111,19 @@ class Controller:
             while players:
                 match = [players[0], players[1]]
                 if match not in self.tournament.rounds_instance:
-                    matchs.append(match)
-                    players.remove(players[0])
-                    players.remove(players[0])
-                    self.launch_matchs(players, matchs)
+                    self.create_match(matchs, match, players, 0)
                 else:
                     match = [players[0], players[2]]
                     if match not in self.tournament.rounds_instance:
-                        matchs.append(match)
-                        players.remove(players[0])
-                        players.remove(players[1])
-                        self.launch_matchs(players, matchs)
+                        self.create_match(matchs, match, players, 1)
             return matchs
+
+    def create_match(self, matchs, match, players, index_second_player):
+        """Crée un match et supprime les joueurs de la liste des joueurs disponibles """
+        matchs.append(match)
+        players.remove(players[0])
+        players.remove(players[index_second_player])
+        self.launch_matchs(players, matchs)
 
     def end_round(self):
         """Fini le tour"""
@@ -134,7 +134,7 @@ class Controller:
             self.tournament.round_instance_list(self.round.serialized())
             self.tournament.check_result = True
             self.tournament.round_in_progress = False
-            print(self.round)
+            self.view.screen_end_round()
         else:
             print("Aucun tour n'est en cours")
 
@@ -192,8 +192,7 @@ class Controller:
     def get_match_result(player_1: list, player_2: list):
         """Donne le résultat du match"""
         match_result = (player_1, player_2)
-        match_result = tuple(match_result)
-        return match_result
+        return tuple(match_result)
 
     def add_score(self, player_1, player_2):
         """Ajoute le score du joueur dans la base de donnée du tournoi"""
@@ -224,15 +223,25 @@ class Controller:
                                           where('name') == self.tournament.name)
 
     def load_tournament(self, tournament_database):
+        """Charge un tournoi"""
         self.tournament.deserialized(tournament_database)
         print(self.tournament)
 
     def actor_report_by_name(self):
+        """Trie tous les joueurs de tous les tournois par ordre alphabétique"""
         players = list(self.players_table)
         players = sorted(players, key=lambda user: user['firstname'], reverse=False)
         return players
 
     def actor_report_by_ranking(self):
+        """Trie tous les joueurs de tous les tournois par classement"""
         players = list(self.players_table)
         players = sorted(players, key=lambda user: user['ranking'], reverse=False)
         return players
+
+    def edit_ranking(self, choice, ranking):
+        """Modifie le classement des joueurs"""
+        if self.players_table.contains(doc_id=choice):
+            self.players_table.update({'ranking': ranking}, doc_ids=[choice])
+            return True
+        return False

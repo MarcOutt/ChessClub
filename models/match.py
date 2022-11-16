@@ -1,11 +1,11 @@
 class Match:
-    def __init__(self, match_result=None, player_1=None, player_2=None, winner=None):
+    def __init__(self, match_result: tuple = None, player_1: list = None, player_2: list = None, winner: list = None):
         if player_2 is None:
             player_2 = []
         if player_1 is None:
             player_1 = []
         if match_result is None:
-            self.match_result = []
+            self.match_result = ()
         self.player_1 = player_1
         self.player_2 = player_2
         self.match_result = match_result

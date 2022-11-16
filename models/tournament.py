@@ -22,21 +22,6 @@ class Tournament:
         self.time_control = time_control
         self.description = description
         self.players = players
-        # self.players = [{'lastname': 'Toto', 'firstname': 'Toto', 'birthday': '11-11-1111', 'gender': 'Feminin',
-        #                'ranking': 22, 'score': 0}, {'lastname': 'Tutu', 'firstname': 'Tutu', 'birthday': '11-11-1111',
-        #                                             'gender': 'Masculin', 'ranking': 33, 'score': 0},
-        #               {'lastname': 'Tata', 'firstname': 'Tata', 'birthday':
-        #                   '11-11-1111', 'gender': 'Masculin', 'ranking': 44, 'score': 0},
-        #               {'lastname': 'Fefe', 'firstname': 'Fefe',
-        #                'birthday': '11-11-1111', 'gender': 'Masculin', 'ranking': 77, 'score': 0},
-        #               {'lastname': 'Fafa',
-        #                'firstname': 'Fafa', 'birthday': '22-11-1111', 'gender': 'Feminin', 'ranking': 99, 'score': 0},
-        #               {'lastname': 'Rere', 'firstname': 'Rere', 'birthday': '11-11-1111', 'gender': 'Masculin',
-        #                'ranking': 99,
-        #                'score': 0},
-        #               {'lastname': 'Baba', 'firstname': 'Baba', 'birthday': '11-11-1111', 'gender': 'Masculin',
-        #                'ranking': 1, 'score': 0}, {'lastname': 'Bobo', 'firstname': 'Bobo', 'birthday': '11-11-1111',
-        #                                           'gender': 'Masculin', 'ranking': 3, 'score': 0}]
         self.rounds_instance = rounds_instance
         self.matchs = matchs
 
@@ -59,6 +44,7 @@ class Tournament:
         return str(self.__dict__)
 
     def serialized(self):
+        """Serialise le model tournament pour la sauvegarde"""
         return {"name": self.name,
                 "location": self.location,
                 "date": str(self.date),
@@ -75,6 +61,7 @@ class Tournament:
                 "tournament_id": self.id}
 
     def deserialized(self, serialized):
+        """Deserialise le model tournament pour le chargement"""
         self.name = serialized['name']
         self.location = serialized['location']
         self.date = serialized['date']
@@ -91,5 +78,6 @@ class Tournament:
         self.id = serialized['tournament_id']
 
     def round_instance_list(self, round):
+        """Crée le round instance"""
         self.rounds_instance.append(round)
         return self.rounds_instance

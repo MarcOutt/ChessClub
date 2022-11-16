@@ -41,6 +41,8 @@ class MainView:
                     self.menu_tournament()
                 elif choice_int == 4:
                     self.menu_get_report()
+                elif choice_int == 5:
+                    self.edit_ranking()
                 elif choice_int == 6:
                     exit()
             except ValueError:
@@ -99,8 +101,8 @@ class MainView:
             print(f"\nAjout du joueur {i + 1} sur {int(self.controller.tournament.number_players)}")
             lastname = input("Ajouter le nom de famille: ").capitalize()
             firstname = input("Ajouter le prénom: ").capitalize()
-            birthday = 11 - 11 - 1111  # self.get_birthday()
-            gender = "Masculin"  # self.get_gender()
+            birthday = self.get_birthday()
+            gender = self.get_gender()
             ranking = self.get_ranking()
             self.controller.add_player(lastname=lastname, firstname=firstname, birthday=birthday, gender=gender,
                                        ranking=ranking)
@@ -173,7 +175,8 @@ class MainView:
 
     def display_matchs(self):
         for match in self.controller.matchs:
-            print(match)
+            print(f"Nom : {match[0]['lastname']}, prénom: {match[0]['firstname']} "
+                  f"vs Nom : {match[0]['lastname']}, prénom: {match[0]['firstname']}")
 
     @staticmethod
     def enter_result(player_1, player_2):
@@ -188,6 +191,10 @@ class MainView:
             return int(choice)
         except ValueError:
             print("Veuillez répondre par un chiffre correspondant à votre choix.")
+
+    def screen_end_round(self):
+        print(f"\nLe tour {self.controller.tournament.counter_round} est fini\n"
+              f"{self.controller.round}")
 
     def screen_ranking(self):
         """Affiche le classement"""
@@ -230,6 +237,7 @@ class MainView:
                     self.screen_all_tournament()
                 elif choice_int == 0:
                     self.main_menu()
+                self.menu_get_report()
             except ValueError:
                 print("Veuillez répondre par un chiffre correspondant à votre choix.")
                 self.main_menu()
@@ -238,10 +246,13 @@ class MainView:
         """Récupère tous les joueurs des tournois"""
         choice = input("1- Afficher les joueurs par classement\n"
                        "2- Afficher les joueurs par ordre alphabétique\n"
+                       "3- Retour\n"
                        "Faites votre choix:")
         try:
             choice_int = int(choice)
-            if choice_int == 1:
+            if choice_int == 0:
+                self.menu_get_report()
+            elif choice_int == 1:
                 players = self.controller.actor_report_by_name()
                 self.screen_player(players)
             elif choice_int == 2:
@@ -265,8 +276,8 @@ class MainView:
         print("Faites votre choix:")
         for tournament_number, tournament in enumerate(self.controller.save_tournament_table, start=1):
             print(f"{tournament_number} - Nom du tournoi {tournament['name']}, lieu : {tournament['location']}, "
-                  f"numéro d'identification : {tournament.doc_id}\n"
-                  f"0 - Retour")
+                  f"numéro d'identification : {tournament.doc_id}\n")
+        print("0 - Retour")
         choice = input("--> ")
         try:
             choice_int = int(choice)
@@ -280,20 +291,56 @@ class MainView:
         """Affiche le menu des rapports pour le tournoi sélectionné"""
         print("\n1 - Liste de tous les joueurs du tournoi\n"
               "2 - Liste de tous les tours d'un tournoi\n"
-              "3 - Liste de tous les matchs d'un tournoi")
+              "3 - Liste de tous les matchs d'un tournoi\n"
+              "0 - Retour")
         choice = input("\nVeuillez entrez votre choix : \n")
         try:
             choice_int = int(choice)
-            if choice_int == 1:
+            if choice_int == 0:
+                self.screen_all_tournament()
+            elif choice_int == 1:
                 players = tournament_database['players']
                 self.screen_player(players)
             elif choice_int == 2:
                 rounds_instance = tournament_database['rounds_instance']
                 for round_instance in rounds_instance:
-                    print(round_instance)
+                    matchs = "".join(f"\nNom: {match[0]['lastname']}, prénom: {match[0]['firstname']},"
+                                     f" classement: {match[0]['ranking']} VS Nom: {match[1]['lastname']}, "
+                                     f"prénom: {match[1]['firstname']}, classement: {match[1]['ranking']}"
+                                     for match in round_instance['matchs'])
+                    print(f"{round_instance['name']}, début: {round_instance['starting_date']} "
+                          f"{round_instance['starting_time']},"f"fin :{round_instance['ending_date']} "
+                          f"{round_instance['ending_time']}.\nRencontres : {matchs} \n")
             elif choice_int == 3:
                 matchs = tournament_database['matchs']
                 for match in matchs:
-                    print(match)
+                    print(f"Nom : {match['player_1']} vs {match['player_2']}, le gagnant du match est nom : "
+                          f"{match['winner']}")
+            self.screen_edit_report_tournament(tournament_database)
+
         except ValueError:
             print("Veuillez répondre par un chiffre correspondant à votre choix.")
+
+    def edit_ranking(self):
+        print("\nMENU MODIFICATION CLASSEMENT JOUEURS\n\n")
+        for player in self.controller.players_table:
+            print(f" - ID: {player['id']} - nom: {player['lastname']} - prénom: {player['lastname']} - classement: "
+                  f"{player['ranking']}")
+        try:
+            choice = int(input("Veuillez indiquer le numéro d'id du joueur afin de modifier son classement"))
+            try:
+                ranking = int(input("Quelle est son nouveau classement? "))
+                choice_exist = self.controller.edit_ranking(choice, ranking)
+                if choice_exist:
+                    players = self.controller.actor_report_by_ranking()
+                    self.screen_player(players)
+                else:
+                    print("Veuillez indiquer le numéro d'id du joueur afin de modifier son classement")
+
+            except ValueError:
+                print("Veuillez répondre par un chiffre correspondant à votre choix.")
+            self.edit_ranking()
+        except ValueError:
+            print("Veuillez répondre par un chiffre correspondant à votre choix.")
+            self.edit_ranking()
+        self.main_menu()
