@@ -5,7 +5,6 @@ class MainView:
 
     def __init__(self, controller):
         self.controller = controller
-        self.main_menu()
 
     def main_menu(self):
         """Affiche le menu principal"""
@@ -47,11 +46,7 @@ class MainView:
             except ValueError:
                 print("Veuillez répondre par un chiffre correspondant à votre choix.")
 
-    @staticmethod
-    def screen_tournament():
-        """Affiche les informations du tournoi qui vient d'être créé"""
-
-
+    # Partie création de tournoi
     def create_tournament(self):
         """ Vue pour la création du tournoi"""
         name = input("Nom du tournoi: ").capitalize()
@@ -65,14 +60,6 @@ class MainView:
                                        description=description)
 
     @staticmethod
-    def get_number_players():
-        """Récupère le nombre de joueurs"""
-        try:
-            return int(input("Quelle est le nombre de joueurs: "))
-        except ValueError:
-            print("Veuillez répondre par un chiffre correspondant à votre choix.")
-
-    @staticmethod
     def get_number_rounds():
         """Récupère le nombre de tours"""
         try:
@@ -81,9 +68,17 @@ class MainView:
             print("Veuillez répondre par un chiffre correspondant à votre choix.")
 
     @staticmethod
+    def get_number_players():
+        """Récupère le nombre de joueurs"""
+        try:
+            return int(input("Quelle est le nombre de joueurs: "))
+        except ValueError:
+            print("Veuillez répondre par un chiffre correspondant à votre choix.")
+
+    @staticmethod
     def get_time_control():
         """Récupère le type de contrôle de temps du tournoi"""
-        time_control = input("Quelle est le type de contrôle de temps: \n"
+        time_control = input("\nQuelle est le type de contrôle de temps: \n"
                              "1. Bullet / 2. Blitz / 3. Coup rapide\n"
                              "--> ")
         try:
@@ -97,14 +92,15 @@ class MainView:
         except ValueError:
             print("Veuillez répondre par un chiffre correspondant à votre choix.")
 
+    # Partie ajout des joueurs
     def add_player(self):
         """Vue pour l'ajout d'un joueur'"""
         for i in range(int(self.controller.tournament.number_players)):
             print(f"\nAjout du joueur {i + 1} sur {int(self.controller.tournament.number_players)}")
             lastname = input("Ajouter le nom de famille: ").capitalize()
             firstname = input("Ajouter le prénom: ").capitalize()
-            birthday = 11-11-1111 #self.get_birthday()
-            gender = "homme" #self.get_gender()
+            birthday = 11 - 11 - 1111  # self.get_birthday()
+            gender = "Masculin"  # self.get_gender()
             ranking = self.get_ranking()
             self.controller.add_player(lastname=lastname, firstname=firstname, birthday=birthday, gender=gender,
                                        ranking=ranking)
@@ -141,6 +137,7 @@ class MainView:
         print("Veuillez répondre par 2 chiffres, exemple: 02")
         self.get_ranking()
 
+    # Partie navigation tournoi
     def menu_tournament(self):
         """Menu du tournoi"""
         while True:
@@ -156,7 +153,9 @@ class MainView:
             try:
                 choice_int = int(choice)
                 if choice_int == 1:
+                    print(f"\nRound {self.controller.tournament.counter_round + 1}\n")
                     self.controller.run_round()
+                    self.display_matchs()
                 elif choice_int == 2:
                     self.controller.end_round()
                 elif choice_int == 3:
@@ -168,12 +167,13 @@ class MainView:
                 elif choice_int == 6:
                     self.main_menu()
                     print("Le tournoi a été sauvegardé")
+                self.menu_tournament()
             except ValueError:
                 print("Veuillez répondre par un chiffre correspondant à votre choix.")
 
-    def screen_matchs(self):
-        """Affiche les matchs"""
-        print('test')
+    def display_matchs(self):
+        for match in self.controller.matchs:
+            print(match)
 
     @staticmethod
     def enter_result(player_1, player_2):
@@ -183,7 +183,11 @@ class MainView:
               f"Si M/Mme {player_1} a gagné(e), tapé 1\n"
               f"Si M/Mme {player_2} a gagné(e), tapé 2\n"
               f"Si match nul, tapé 3")
-        return input("Match result : Veuillez indiquer votre choix : ")
+        choice = input("Match result : Veuillez indiquer votre choix : ")
+        try:
+            return int(choice)
+        except ValueError:
+            print("Veuillez répondre par un chiffre correspondant à votre choix.")
 
     def screen_ranking(self):
         """Affiche le classement"""
@@ -192,75 +196,7 @@ class MainView:
             print(f"Nom de famille : {player['lastname']}, classé: {player['ranking']} "
                   f"avec un score de : {player['score']} ")
 
-    def menu_get_report(self):
-        """Affiche le menu des rapports"""
-        print("Affichage des rapports\n")
-        while True:
-            print(
-                "1 - Afficher tous les joueurs de tous les tournois \n"
-                "2 - Choisir le tournoi concerné\n")
-            choice = input("\nVeuillez entrez votre choix : \n")
-            try:
-                choice_int = int(choice)
-                if choice_int == 1:
-                    self.get_actor_report()
-                elif choice_int == 2:
-                    self.screen_all_tournament()
-
-            except ValueError:
-                print("Veuillez répondre par un chiffre correspondant à votre choix.")
-                self.main_menu()
-
-    def get_actor_report(self):
-        """Récupère tous les joueurs des tournois"""
-        for player in self.controller.players_table:
-            print(f"nom : {player['lastname']}\n"
-                  f"Prénom: {player['firstname']}\n"
-                  f"Date de naissance: {player['birthday']}\n"
-                  f"Sexe : {player['gender']}\n"
-                  f"Classement: {player['ranking']}\n")
-
-    def screen_all_tournament(self):
-        """Affiche la liste des tournois dans la database"""
-        print("Faites votre choix:")
-        for tournament_number, tournament in enumerate(self.controller.save_tournament_table, start=1):
-            print(f"{tournament_number} - Nom du tournoi {tournament['name']}, lieu : {tournament['location']}, "
-                  f"numéro d'identification : {tournament.doc_id}")
-        choice = input("--> ")
-        try:
-            choice_int = int(choice)
-            self.screen_edit_report_tournament(self.controller.save_tournament_table.get(doc_id=choice_int))
-        except ValueError:
-            print("Veuillez répondre par un chiffre correspondant à votre choix.")
-
-    @staticmethod
-    def screen_edit_report_tournament(tournament_database):
-        """Affiche le menu des rapports pour le tournoi sélectionné"""
-        print("\n1 - Liste de tous les joueurs du tournoi\n"
-              "2 - Liste de tous les tours d'un tournoi\n"
-              "3 - Liste de tous les matchs d'un tournoi")
-        choice = input("\nVeuillez entrez votre choix : \n")
-        try:
-            choice_int = int(choice)
-            if choice_int == 1:
-                players = tournament_database['players']
-                for player in players:
-                    print(f"nom : {player['lastname']}\n"
-                          f"Prénom: {player['firstname']}\n"
-                          f"Date de naissance: {player['birthday']}\n"
-                          f"Sexe : {player['gender']}\n"
-                          f"Classement: {player['ranking']}\n")
-            elif choice_int == 2:
-                rounds_instance = tournament_database['round_instance']
-                for round_instance in rounds_instance:
-                    print(round_instance)
-            elif choice_int == 3:
-                matchs = tournament_database['matchs']
-                for match in matchs:
-                    print(match)
-        except ValueError:
-            print("Veuillez répondre par un chiffre correspondant à votre choix.")
-
+    # Partie charger un tournoi
     def screen_load_tournament(self):
         """Affiche le menu pour charger un tournoi non fini"""
         print("Veuillez choisir le tournoi à charger:")
@@ -273,5 +209,91 @@ class MainView:
             tournament_database = self.controller.save_tournament_table.get(doc_id=choice_int)
             self.controller.load_tournament(tournament_database)
 
+        except ValueError:
+            print("Veuillez répondre par un chiffre correspondant à votre choix.")
+
+    # Partie afficher des rapports
+    def menu_get_report(self):
+        """Affiche le menu des rapports"""
+        print("Affichage des rapports\n")
+        while True:
+            print("\n       Menu rapport\n"
+                  "\n1 - Afficher tous les joueurs de tous les tournois \n"
+                  "2 - Choisir le tournoi concerné\n"
+                  "0 - Retour")
+            choice = input("\nVeuillez entrez votre choix : \n")
+            try:
+                choice_int = int(choice)
+                if choice_int == 1:
+                    self.get_actor_report()
+                elif choice_int == 2:
+                    self.screen_all_tournament()
+                elif choice_int == 0:
+                    self.main_menu()
+            except ValueError:
+                print("Veuillez répondre par un chiffre correspondant à votre choix.")
+                self.main_menu()
+
+    def get_actor_report(self):
+        """Récupère tous les joueurs des tournois"""
+        choice = input("1- Afficher les joueurs par classement\n"
+                       "2- Afficher les joueurs par ordre alphabétique\n"
+                       "Faites votre choix:")
+        try:
+            choice_int = int(choice)
+            if choice_int == 1:
+                players = self.controller.actor_report_by_name()
+                self.screen_player(players)
+            elif choice_int == 2:
+                players = self.controller.actor_report_by_ranking()
+                self.screen_player(players)
+        except ValueError:
+            print("Veuillez répondre par un chiffre correspondant à votre choix.")
+            self.main_menu()
+
+    @staticmethod
+    def screen_player(players):
+        for player in players:
+            print(f"Nom : {player['lastname']}; "
+                  f"Prénom: {player['firstname']}; "
+                  f"Date de naissance: {player['birthday']}; "
+                  f"Sexe : {player['gender']}; "
+                  f"Classement: {player['ranking']}")
+
+    def screen_all_tournament(self):
+        """Affiche la liste des tournois dans la database"""
+        print("Faites votre choix:")
+        for tournament_number, tournament in enumerate(self.controller.save_tournament_table, start=1):
+            print(f"{tournament_number} - Nom du tournoi {tournament['name']}, lieu : {tournament['location']}, "
+                  f"numéro d'identification : {tournament.doc_id}\n"
+                  f"0 - Retour")
+        choice = input("--> ")
+        try:
+            choice_int = int(choice)
+            if choice_int == 0:
+                self.main_menu()
+            self.screen_edit_report_tournament(self.controller.save_tournament_table.get(doc_id=choice_int))
+        except ValueError:
+            print("Veuillez répondre par un chiffre correspondant à votre choix.")
+
+    def screen_edit_report_tournament(self, tournament_database):
+        """Affiche le menu des rapports pour le tournoi sélectionné"""
+        print("\n1 - Liste de tous les joueurs du tournoi\n"
+              "2 - Liste de tous les tours d'un tournoi\n"
+              "3 - Liste de tous les matchs d'un tournoi")
+        choice = input("\nVeuillez entrez votre choix : \n")
+        try:
+            choice_int = int(choice)
+            if choice_int == 1:
+                players = tournament_database['players']
+                self.screen_player(players)
+            elif choice_int == 2:
+                rounds_instance = tournament_database['rounds_instance']
+                for round_instance in rounds_instance:
+                    print(round_instance)
+            elif choice_int == 3:
+                matchs = tournament_database['matchs']
+                for match in matchs:
+                    print(match)
         except ValueError:
             print("Veuillez répondre par un chiffre correspondant à votre choix.")

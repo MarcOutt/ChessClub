@@ -2,7 +2,8 @@ from datetime import date
 
 
 class Tournament:
-    def __init__(self, id_tournament: int = None, name: str = "Paris", location: str = "Paris", number_players: int = 1, number_rounds: int = 1,
+    def __init__(self, id_tournament: int = None, name: str = "Paris", location: str = "Paris", number_players: int = 1,
+                 number_rounds: int = 1,
                  players: list = None, time_control: str = None, description: str = None, rounds_instance=None,
                  matchs: list = None, counter_round: int = 0, round_in_progress: bool = False,
                  check_result: bool = False):
@@ -21,7 +22,7 @@ class Tournament:
         self.time_control = time_control
         self.description = description
         self.players = players
-        #elf.players = [{'lastname': 'Toto', 'firstname': 'Toto', 'birthday': '11-11-1111', 'gender': 'Feminin',
+        # self.players = [{'lastname': 'Toto', 'firstname': 'Toto', 'birthday': '11-11-1111', 'gender': 'Feminin',
         #                'ranking': 22, 'score': 0}, {'lastname': 'Tutu', 'firstname': 'Tutu', 'birthday': '11-11-1111',
         #                                             'gender': 'Masculin', 'ranking': 33, 'score': 0},
         #               {'lastname': 'Tata', 'firstname': 'Tata', 'birthday':
@@ -44,14 +45,15 @@ class Tournament:
         self.check_result = check_result
 
     def __str__(self):
+        players = "".join(f"\n - Nom:{player['firstname']}, prénom {player['lastname']}, "
+                          f"classementNom:{player['ranking']}" for player in self.players)
         return f"\nNom : {self.name} \n" \
                f"Lieu: {self.location} \n" \
                f"Nombre de tours: {self.number_rounds} \n" \
                f"Nombre de joueurs: {self.number_players} \n" \
                f"Type de contrôle de temps: {self.time_control} \n" \
                f"Description : {self.description} \n" \
-               f"Liste des joueurs: {self.players}"
-
+               f"Liste des joueurs: {players}"
 
     def __repr__(self):
         return str(self.__dict__)
@@ -72,7 +74,7 @@ class Tournament:
                 "check_result": self.check_result,
                 "tournament_id": self.id}
 
-    def unserialized(self, serialized):
+    def deserialized(self, serialized):
         self.name = serialized['name']
         self.location = serialized['location']
         self.date = serialized['date']
