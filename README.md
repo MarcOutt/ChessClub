@@ -64,12 +64,12 @@ Navigation du menu tournoi:
 * 0 Retour permet de revenir au menu précédent
 
 Exemple d'utilisation:
-* Dans le menu gestionnaire de tournoi, faites """1""" + """entrée""" pour créer un tournoi
+* Dans le menu gestionnaire de tournoi, faites ```1``` + ```entrée``` pour créer un tournoi
 * Remplir les champs
-* Lancer le 1er tour, faites """1""" + """Entrée"""
-* Finir le tour, faites """2""" + """Entrée"""
-* Remplir les résultats, faites """3""" + """Entrée"""
+* Lancer le 1er tour, faites ```1``` + ```Entrée```
+* Finir le tour, faites ```2``` + ```Entrée```
+* Remplir les résultats, faites ```3``` + ```Entrée```
 * Répéter les 3 étapes précédentes, jusqu'à la fin du tournoi
-* Pour sauvegarder le tournoi, appuyer sur """5""" + """entrée""" dans le menu tournoi
-* Pour revenir en arrière appuyez sur """0""" + """entrée"""
+* Pour sauvegarder le tournoi, appuyer sur ```5``` + ```entrée``` dans le menu tournoi
+* Pour revenir en arrière appuyez sur ```0``` + ```entrée```
 
