@@ -48,34 +48,31 @@
 -------------------
 
 * Lancer le programme
-Navigation du menu:
+
 
 Navigation du menu gestionnaire de tournoi:
-* 1. Créer un tournoi permet de créer un nouveau tournoi et d'ajouter les joueurs
-* 2. Menu tournoi permet d'aller dans le menu tournoi
-* 3. Charger un tournoi permet de récupérer les tournois sauvegardés
-* 4. Editer un rapport permet d'éditer un rapport sur les tournois et les joueurs de la base de données
-* 5. Mettre à jour le classement, permet de mettre à jour le classement des joueurs de la base de données
-* 6. Exit permet de quitter le programme
+* 1 Créer un tournoi permet de créer un nouveau tournoi et d'ajouter les joueurs
+* 2 Menu tournoi permet d'aller dans le menu tournoi
+* 3 Charger un tournoi permet de récupérer les tournois sauvegardés
+* 4 Editer un rapport permet d'éditer un rapport sur les tournois et les joueurs de la base de données (matchs, round, etc.)
+* 5 Mettre à jour le classement permet de mettre à jour le classement des joueurs de la base de données
+* 6 Exit permet de quitter le programme
 
 Navigation du menu tournoi:
-* 1. Lancer le tour permet de démarrer les matchs
-* 2. Finir le tour permet d'arreter le tour lorsque les matchs ont tous finis
-* 3. Entrer les résultats des matchs permet de rentrer les scores
-* 4. Affiche le classement permet d'afficher le classement des joueurs en fonction de leur classement et de leur score
-* 5. Permet de sauvegarder le tournoi à tout moment
-* 0. Retour permet de revenir au menu précédent
+* 1 Lancer le tour permet de démarrer les matchs
+* 2 Finir le tour permet d'arreter le tour lorsque les matchs ont tous finis
+* 3 Entrer les résultats des matchs permet de rentrer les scores
+* 4 Affiche le classement permet d'afficher le classement des joueurs en fonction de leur classement et de leur score
+* 5 Permet de sauvegarder le tournoi à tout moment
+* 0 Retour permet de revenir au menu précédent
 
-Création d'un tournoi:
-* Pour créer un tournoi et ajouter les joueurs, selectionnez 1. Créer un tournoi
-** Remplir les champs demandés
-
-* Enfin, pour rentrer les résultats, faites 3 + entrée
-* Pour sauvegarder le tournoi, appuyer sur 5 + entrée dans le menu tournoi
-* Répétez les étapes précédentes jusqu'à ce que le tournoi soit fini.
-* Pour charger un tournoi existant, sélectionnez 3. 
-** Selectionner le tournoi à télécharger
-* Pour revenir en arrière appuyez sur 0 + entrée
-
-
+Exemple d'utilisation:
+* Dans le menu gestionnaire de tournoi, faites """1""" + """entrée""" pour créer un tournoi
+* Remplir les champs
+* Lancer le 1er tour, faites """1""" + """Entrée"""
+* Finir le tour, faites """2""" + """Entrée"""
+* Remplir les résultats, faites """3""" + """Entrée"""
+* Répéter les 3 étapes précédentes, jusqu'à la fin du tournoi
+* Pour sauvegarder le tournoi, appuyer sur """5""" + """entrée""" dans le menu tournoi
+* Pour revenir en arrière appuyez sur """0""" + """entrée"""
 
