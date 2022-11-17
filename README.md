@@ -46,8 +46,6 @@
 
 ## UTILISATION
 -------------------
-Information concernant la navigation
-____________________________________
 
 Navigation du menu gestionnaire de tournoi:
 * 1 Créer un tournoi permet de créer un nouveau tournoi et d'ajouter les joueurs
