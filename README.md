@@ -15,7 +15,7 @@
 ## INTRODUCTION
 ----------------
 
-* Le programme est un logiciel de tournoi permettant de gérer des tournois selon le système de tournois "suisse" et de produire des rapports.
+* Le programme est un logiciel permettant de gérer des tournois selon le système de tournoi "suisse" et de produire des rapports.
 
 
 ## CONFIGURATION REQUISE
@@ -46,9 +46,8 @@
 
 ## UTILISATION
 -------------------
-
-* Lancer le programme
-
+Information concernant la navigation
+____________________________________
 
 Navigation du menu gestionnaire de tournoi:
 * 1 Créer un tournoi permet de créer un nouveau tournoi et d'ajouter les joueurs
