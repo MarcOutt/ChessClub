@@ -12,7 +12,7 @@ class MainView:
         print("\nBIENVENUE DANS LE GESTIONNAIRE DE TOURNOIS\n")
 
         while True:
-            choice = input(" \n 1. Créer un tournoi \n"
+            choice = input(" 1. Créer un tournoi \n"
                            " 2. Menu tournoi \n"
                            " 3. Charger un tournoi\n"
                            " 4. Editer un rapport\n"
@@ -112,8 +112,8 @@ class MainView:
         date_format = "%d-%m-%Y"
         birthday = input("Ajouter la date de naissance: (jj-mm-aaaa) ")
         try:
-            valid_date = datetime.datetime.strptime(birthday, date_format)
-            return str(valid_date)
+            valide_date = str(datetime.datetime.strptime(birthday, date_format))
+            return valide_date[:9]
         except ValueError:
             print("Date non valide! ", birthday)
             self.get_birthday()
@@ -152,7 +152,7 @@ class MainView:
                            " 3. Entrer les résultats des matchs\n"
                            " 4. Afficher le classement\n"
                            " 5. Sauvegarder le tournoi\n"
-                           " 6. Retour \n"
+                           " 0. Retour \n"
                            "--> ")
             try:
                 choice_int = int(choice)
@@ -168,7 +168,7 @@ class MainView:
                     self.screen_ranking()
                 elif choice_int == 5:
                     self.controller.save_tournament()
-                elif choice_int == 6:
+                elif choice_int == 0:
                     self.main_menu()
                     print("Le tournoi a été sauvegardé")
                 self.menu_tournament()
@@ -281,8 +281,8 @@ class MainView:
         print("Faites votre choix:")
         for tournament_number, tournament in enumerate(self.controller.save_tournament_table, start=1):
             print(f"{tournament_number} - Nom du tournoi {tournament['name']}, lieu : {tournament['location']}, "
-                  f"numéro d'identification : {tournament.doc_id}\n")
-        print("0 - Retour")
+                  f"numéro d'identification : {tournament.doc_id}")
+        print("0 - Retour\n")
         choice = input("--> ")
         try:
             choice_int = int(choice)

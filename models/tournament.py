@@ -3,7 +3,7 @@ from datetime import date
 
 class Tournament:
     def __init__(self, id_tournament: int = None, name: str = "Paris", location: str = "Paris",
-                 number_players: int = 1, number_rounds: int = 1, players: list = None, time_control: str = None,
+                 number_players: int = 8, number_rounds: int = 4, players: list = None, time_control: str = None,
                  description: str = None, rounds_instance=None, matchs: list = None, counter_round: int = 0,
                  round_in_progress: bool = False, check_result: bool = False):
         if rounds_instance is None:
@@ -29,7 +29,7 @@ class Tournament:
 
     def __str__(self):
         players = "".join(f"\n - Nom:{player['firstname']}, prénom {player['lastname']}, "
-                          f"classementNom:{player['ranking']}" for player in self.players)
+                          f"classement:{player['ranking']}" for player in self.players)
         return f"\nNom : {self.name} \n" \
                f"Lieu: {self.location} \n" \
                f"Nombre de tours: {self.number_rounds} \n" \

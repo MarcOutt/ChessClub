@@ -38,6 +38,7 @@ class Round:
                 }
 
     def endgame_date_time(self):
+        """Donne la date et l'heure de fin du tour"""
         self.end_date = date.today()
         now = datetime.now()
         self.end_time = now.strftime("%H:%M:%S")

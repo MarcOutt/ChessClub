@@ -28,7 +28,7 @@ class Controller:
     # Partie création du tournoi
     def add_tournament(self, name: str, location: str, number_rounds: int, number_players: int, time_control: str,
                        description: str):
-        """Crée un tournoi"""
+        """Crée un tournoi et sauvegarde """
         self.tournament.name = name
         self.tournament.location = location
         self.tournament.number_rounds = number_rounds
@@ -41,12 +41,12 @@ class Controller:
     # Partie ajout de joueur
     def add_player(self, lastname: str, firstname: str, birthday: str, gender: str, ranking: int):
         player = Player(lastname=lastname, firstname=firstname, birthday=birthday, gender=gender, ranking=ranking)
-        """Ajoute le joueur dans le tournoi"""
+        """Ajoute le joueur dans le tournoi et sauvegarde les joueurs dans la base de données"""
         self.tournament.players.append(player.serialized())
         player.player_id = self.players_table.insert(player.serialized())
-        print(player.player_id)
         self.players_table.update({'id': player.player_id}, doc_ids=[player.player_id])
-        self.save_tournament_table.update(self.tournament.serialized(), doc_ids=[self.tournament.id])
+        self.save_tournament_table.update({"players": self.tournament.players},
+                                          where('name') == self.tournament.name)
 
     def sort_list_ranking_and_score(self):
         """Trie les joueurs en fonction de leur score et de leur classement"""
@@ -73,7 +73,6 @@ class Controller:
                 self.matchs = self.launch_matchs(players)
             name = f"Round {self.tournament.counter_round}"
             self.round = Round(name=name, matchs=self.matchs)
-            self.tournament.round_instance_list(self.round.serialized())
         else:
             print("Veuillez rentrer les résultats avant de lancer le tour suivant")
 
@@ -219,6 +218,7 @@ class Controller:
                                           where('name') == self.tournament.name)
         self.save_tournament_table.update({"check_result": self.tournament.check_result},
                                           where('name') == self.tournament.name)
+        print("le tournoi a été sauvegardé")
 
     def load_tournament(self, tournament_database):
         """Charge un tournoi"""
