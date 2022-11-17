@@ -79,21 +79,23 @@ class MainView:
         print("Veuillez répondre avec des lettres")
         self.get_location()
 
-    @staticmethod
-    def get_number_rounds():
+    def get_number_rounds(self):
         """Récupère le nombre de tours"""
+        number_rounds = input("Quelle est le nombre de tours: ")
         try:
-            return int(input("Quelle est le nombre de tours: "))
+            return int(number_rounds)
         except ValueError:
             print("Veuillez répondre par un chiffre correspondant à votre choix.")
+            self.get_number_rounds()
 
-    @staticmethod
-    def get_number_players():
+    def get_number_players(self):
         """Récupère le nombre de joueurs"""
+        number_players = input("Quelle est le nombre de joueurs: ")
         try:
-            return int(input("Quelle est le nombre de joueurs: "))
+            return int(number_players)
         except ValueError:
             print("Veuillez répondre par un chiffre correspondant à votre choix.")
+            self.get_number_players()
 
     def get_time_control(self):
         """Récupère le type de contrôle de temps du tournoi"""
@@ -118,8 +120,8 @@ class MainView:
         """Vue pour l'ajout d'un joueur'"""
         for i in range(int(self.controller.tournament.number_players)):
             print(f"\nAjout du joueur {i + 1} sur {int(self.controller.tournament.number_players)}")
-            lastname = input("Ajouter le nom de famille: ").capitalize()
-            firstname = input("Ajouter le prénom: ").capitalize()
+            lastname = self.get_lastname()
+            firstname = self.get_firstname()
             birthday = self.get_birthday()
             gender = self.get_gender()
             ranking = self.get_ranking()
@@ -218,8 +220,7 @@ class MainView:
             print(f"Nom : {match[0]['lastname']}, prénom: {match[0]['firstname']} "
                   f"vs Nom : {match[0]['lastname']}, prénom: {match[0]['firstname']}")
 
-    @staticmethod
-    def enter_result(player_1, player_2):
+    def enter_result(self, player_1, player_2):
         """Donne le résultat du match"""
         print("\n   Entrer les résultats:\n"
               "Quelle est le résultat de la partie ? \n"
@@ -231,6 +232,7 @@ class MainView:
             return int(choice)
         except ValueError:
             print("Veuillez répondre par un chiffre correspondant à votre choix.")
+            self.enter_result(player_1, player_2)
 
     def screen_end_round(self):
         """Affiche la fin du tour"""
