@@ -22,7 +22,7 @@ class Round:
                          f" classement: {match[0]['ranking']} VS Nom: {match[1]['lastname']}, "
                          f"prénom: {match[1]['firstname']}, classement: {match[1]['ranking']}"
                          for match in self.matchs)
-        return f"       {self.name}\n" \
+        return f"{self.name}\n" \
                f"Début du tour: {self.starting_date} à {self.starting_time}\n" \
                f"Fin du tour: {self.ending_date} à {self.ending_time}\n\n" \
                f"Rencontres: {matchs}"

@@ -57,7 +57,6 @@ class Controller:
     # Partie Menu
     def run_round(self):
         """Lance un tour et appelle la vue menu_tournament"""
-        # self.view = views.MainView(self)
         if self.tournament.counter_round > self.tournament.number_rounds:
             print("\n\n      Le tournoi est fini")
         elif self.tournament.round_in_progress:

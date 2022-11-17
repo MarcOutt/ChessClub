@@ -51,8 +51,8 @@ class MainView:
     # Partie création de tournoi
     def create_tournament(self):
         """ Vue pour la création du tournoi"""
-        name = input("Nom du tournoi: ").capitalize()
-        location = input("Lieu du tournoi: ").capitalize()
+        name = self.name_tournament()
+        location = self.location()
         number_rounds = self.get_number_rounds()
         number_players = self.get_number_players()
         time_control = self.get_time_control()
@@ -60,6 +60,22 @@ class MainView:
         self.controller.add_tournament(name=name, location=location, number_rounds=number_rounds,
                                        number_players=number_players, time_control=time_control,
                                        description=description)
+
+    def name_tournament(self):
+        name = input("Nom du tournoi: ")
+        answer = name.isalpha()
+        if answer:
+            return name.capitalize()
+        print("Veuillez répondre avec des lettres")
+        self.name_tournament()
+
+    def location(self):
+        location = input("Lieu du tournoi: ")
+        answer = location.isalpha()
+        if answer:
+            return location.capitalize()
+        print("Veuillez répondre avec des lettres")
+        self.location()
 
     @staticmethod
     def get_number_rounds():
@@ -77,8 +93,7 @@ class MainView:
         except ValueError:
             print("Veuillez répondre par un chiffre correspondant à votre choix.")
 
-    @staticmethod
-    def get_time_control():
+    def get_time_control(self):
         """Récupère le type de contrôle de temps du tournoi"""
         time_control = input("\nQuelle est le type de contrôle de temps: \n"
                              "1. Bullet / 2. Blitz / 3. Coup rapide\n"
@@ -87,12 +102,14 @@ class MainView:
             time_control_int = int(time_control)
             if time_control_int == 1:
                 return "Bullet"
-            elif time_control == 2:
+            elif time_control_int == 2:
                 return "Blitz"
             elif time_control_int == 3:
                 return "Coup rapide"
+            self.get_time_control()
         except ValueError:
             print("Veuillez répondre par un chiffre correspondant à votre choix.")
+            self.get_time_control()
 
     # Partie ajout des joueurs
     def add_player(self):
@@ -197,7 +214,7 @@ class MainView:
 
     def screen_end_round(self):
         """Affiche la fin du tour"""
-        print(f"\nLe tour {self.controller.tournament.counter_round} est fini\n"
+        print(f"\n      LE TOUR EST FINI: \n\n"
               f"{self.controller.round}")
 
     def screen_ranking(self):
@@ -210,9 +227,10 @@ class MainView:
     # Partie charger un tournoi
     def screen_load_tournament(self):
         """Affiche le menu pour charger un tournoi non fini"""
-        print("Veuillez choisir le tournoi à charger:")
+        print("\n MENU CHARGEMENT DES TOURNOIS\n"
+              "\nVeuillez choisir le tournoi à charger:")
         for tournament_number, tournament in enumerate(self.controller.save_tournament_table, start=1):
-            print(f"{tournament_number} - Nom du tournoi {tournament['name']}, lieu : {tournament['location']}, "
+            print(f"{tournament_number}. Nom du tournoi {tournament['name']}, lieu : {tournament['location']}, "
                   f"numéro d'identification : {tournament.doc_id}")
         choice = input("--> ")
         try:
@@ -226,12 +244,11 @@ class MainView:
     # Partie afficher des rapports
     def menu_get_report(self):
         """Affiche le menu des rapports"""
-        print("Affichage des rapports\n")
         while True:
-            print("\n       Menu rapport\n"
-                  "\n1 - Afficher tous les joueurs de tous les tournois \n"
-                  "2 - Choisir le tournoi concerné\n"
-                  "0 - Retour")
+            print("\n       MENU RAPPORT\n"
+                  "\n1. Afficher tous les joueurs de tous les tournois \n"
+                  "2. Choisir le tournoi concerné\n"
+                  "0. Retour")
             choice = input("\nVeuillez entrez votre choix : \n")
             try:
                 choice_int = int(choice)
@@ -248,9 +265,9 @@ class MainView:
 
     def get_actor_report(self):
         """Récupère tous les joueurs des tournois"""
-        choice = input("1- Afficher les joueurs par classement\n"
-                       "2- Afficher les joueurs par ordre alphabétique\n"
-                       "3- Retour\n"
+        choice = input("1. Afficher les joueurs par ordre alphabétique\n"
+                       "2. Afficher les joueurs par classement\n"
+                       "0. Retour\n"
                        "Faites votre choix:")
         try:
             choice_int = int(choice)
@@ -280,9 +297,9 @@ class MainView:
         """Affiche la liste des tournois dans la database"""
         print("Faites votre choix:")
         for tournament_number, tournament in enumerate(self.controller.save_tournament_table, start=1):
-            print(f"{tournament_number} - Nom du tournoi {tournament['name']}, lieu : {tournament['location']}, "
+            print(f"{tournament_number}. Nom du tournoi {tournament['name']}, lieu : {tournament['location']}, "
                   f"numéro d'identification : {tournament.doc_id}")
-        print("0 - Retour\n")
+        print("0. Retour\n")
         choice = input("--> ")
         try:
             choice_int = int(choice)
@@ -294,10 +311,10 @@ class MainView:
 
     def screen_edit_report_tournament(self, tournament_database):
         """Affiche le menu des rapports pour le tournoi sélectionné"""
-        print("\n1 - Liste de tous les joueurs du tournoi\n"
-              "2 - Liste de tous les tours d'un tournoi\n"
-              "3 - Liste de tous les matchs d'un tournoi\n"
-              "0 - Retour")
+        print("\n1. Liste de tous les joueurs du tournoi\n"
+              "2. Liste de tous les tours d'un tournoi\n"
+              "3. Liste de tous les matchs d'un tournoi\n"
+              "0. Retour")
         choice = input("\nVeuillez entrez votre choix : \n")
         try:
             choice_int = int(choice)
