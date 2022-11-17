@@ -51,8 +51,8 @@ class MainView:
     # Partie création de tournoi
     def create_tournament(self):
         """ Vue pour la création du tournoi"""
-        name = self.name_tournament()
-        location = self.location()
+        name = self.get_name_tournament()
+        location = self.get_location()
         number_rounds = self.get_number_rounds()
         number_players = self.get_number_players()
         time_control = self.get_time_control()
@@ -61,21 +61,23 @@ class MainView:
                                        number_players=number_players, time_control=time_control,
                                        description=description)
 
-    def name_tournament(self):
+    def get_name_tournament(self):
+        """Récupère le nom du tournoi"""
         name = input("Nom du tournoi: ")
         answer = name.isalpha()
         if answer:
             return name.capitalize()
         print("Veuillez répondre avec des lettres")
-        self.name_tournament()
+        self.get_name_tournament()
 
-    def location(self):
+    def get_location(self):
+        """Récupère le lieu du tournoi"""
         location = input("Lieu du tournoi: ")
         answer = location.isalpha()
         if answer:
             return location.capitalize()
         print("Veuillez répondre avec des lettres")
-        self.location()
+        self.get_location()
 
     @staticmethod
     def get_number_rounds():
@@ -123,6 +125,24 @@ class MainView:
             ranking = self.get_ranking()
             self.controller.add_player(lastname=lastname, firstname=firstname, birthday=birthday, gender=gender,
                                        ranking=ranking)
+
+    def get_lastname(self):
+        """Récupère le nom de famille du joueur"""
+        lastname = input("Ajouter le nom de famille: ")
+        answer = lastname.isalpha()
+        if answer:
+            return lastname.capitalize()
+        print("Veuillez répondre avec des lettres")
+        self.get_lastname()
+
+    def get_firstname(self):
+        """Récupère le prénom du joueur"""
+        firstname = input("Ajouter le prénom: ")
+        answer = firstname.isalpha()
+        if answer:
+            return firstname.capitalize()
+        print("Veuillez répondre avec des lettres")
+        self.get_firstname()
 
     def get_birthday(self):
         """Demande la date de naissance du joueur et vérifie son format"""
