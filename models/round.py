@@ -28,6 +28,7 @@ class Round:
                f"Rencontres: {matchs}"
 
     def serialized(self):
+        """Serialise le modèle Round pour la sauvegarde"""
         return {"name": self.name,
                 "starting_date": str(self.starting_date),
                 "starting_time": str(self.starting_time),
@@ -40,5 +41,3 @@ class Round:
         self.end_date = date.today()
         now = datetime.now()
         self.end_time = now.strftime("%H:%M:%S")
-
-

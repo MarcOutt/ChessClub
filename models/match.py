@@ -17,6 +17,7 @@ class Match:
                f"Le gagnant du match est : {self.winner}"
 
     def serialized(self):
+        """Serialise le modèle Match pour la sauvegarde"""
         return {"player_1": self.player_1,
                 "player_2": self.player_2,
                 "match_result": self.match_result,

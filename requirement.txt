@@ -1,0 +1,16 @@
+aioredis==2.0.1
+async-timeout==4.0.2
+flake8==4.0.1
+flake8-html==0.4.2
+importlib-metadata==4.2.0
+isort==5.10.1
+Jinja2==3.1.2
+MarkupSafe==2.1.1
+mccabe==0.6.1
+pycodestyle==2.8.0
+pyflakes==2.4.0
+Pygments==2.13.0
+tinydb==4.7.0
+tournament==1.0.0
+typing_extensions==4.4.0
+zipp==3.10.0

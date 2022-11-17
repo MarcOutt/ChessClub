@@ -113,7 +113,7 @@ class MainView:
         birthday = input("Ajouter la date de naissance: (jj-mm-aaaa) ")
         try:
             valid_date = datetime.datetime.strptime(birthday, date_format)
-            return birthday
+            return str(valid_date)
         except ValueError:
             print("Date non valide! ", birthday)
             self.get_birthday()
@@ -127,6 +127,8 @@ class MainView:
                 return "Feminin"
             elif get_gender_int == 2:
                 return "Masculin"
+            print("Veuillez répondre par un chiffre correspondant à votre choix.")
+            self.get_gender()
         except ValueError:
             print("Veuillez répondre par un chiffre correspondant à votre choix.")
             self.get_gender()
@@ -141,10 +143,10 @@ class MainView:
 
     # Partie navigation tournoi
     def menu_tournament(self):
-        """Menu du tournoi"""
+        """Affiche le menu du tournoi"""
         while True:
 
-            choice = input("\n\n    Menu tournoi\n"
+            choice = input("\n\n    MENU TOURNOI\n"
                            " 1. Lancer le tour \n"
                            " 2. Finir le tour\n"
                            " 3. Entrer les résultats des matchs\n"
@@ -174,13 +176,14 @@ class MainView:
                 print("Veuillez répondre par un chiffre correspondant à votre choix.")
 
     def display_matchs(self):
+        """Affiche les matchs du tour"""
         for match in self.controller.matchs:
             print(f"Nom : {match[0]['lastname']}, prénom: {match[0]['firstname']} "
                   f"vs Nom : {match[0]['lastname']}, prénom: {match[0]['firstname']}")
 
     @staticmethod
     def enter_result(player_1, player_2):
-        """Vue pour dire quelle est le résultat"""
+        """Donne le résultat du match"""
         print("\n   Entrer les résultats:\n"
               "Quelle est le résultat de la partie ? \n"
               f"Si M/Mme {player_1} a gagné(e), tapé 1\n"
@@ -193,6 +196,7 @@ class MainView:
             print("Veuillez répondre par un chiffre correspondant à votre choix.")
 
     def screen_end_round(self):
+        """Affiche la fin du tour"""
         print(f"\nLe tour {self.controller.tournament.counter_round} est fini\n"
               f"{self.controller.round}")
 
@@ -264,6 +268,7 @@ class MainView:
 
     @staticmethod
     def screen_player(players):
+        """Affiche les informations des joueurs"""
         for player in players:
             print(f"Nom : {player['lastname']}; "
                   f"Prénom: {player['firstname']}; "
@@ -321,7 +326,8 @@ class MainView:
         except ValueError:
             print("Veuillez répondre par un chiffre correspondant à votre choix.")
 
-    def edit_ranking(self):
+    def edit_ranking(self):  # sourcery skip: use-named-expression
+        """"Affiche les joueurs de tous les tournois pour modifier leur classement"""
         print("\nMENU MODIFICATION CLASSEMENT JOUEURS\n\n")
         for player in self.controller.players_table:
             print(f" - ID: {player['id']} - nom: {player['lastname']} - prénom: {player['lastname']} - classement: "

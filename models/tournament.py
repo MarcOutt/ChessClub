@@ -2,11 +2,10 @@ from datetime import date
 
 
 class Tournament:
-    def __init__(self, id_tournament: int = None, name: str = "Paris", location: str = "Paris", number_players: int = 1,
-                 number_rounds: int = 1,
-                 players: list = None, time_control: str = None, description: str = None, rounds_instance=None,
-                 matchs: list = None, counter_round: int = 0, round_in_progress: bool = False,
-                 check_result: bool = False):
+    def __init__(self, id_tournament: int = None, name: str = "Paris", location: str = "Paris",
+                 number_players: int = 1, number_rounds: int = 1, players: list = None, time_control: str = None,
+                 description: str = None, rounds_instance=None, matchs: list = None, counter_round: int = 0,
+                 round_in_progress: bool = False, check_result: bool = False):
         if rounds_instance is None:
             rounds_instance = []
         if matchs is None:
@@ -24,7 +23,6 @@ class Tournament:
         self.players = players
         self.rounds_instance = rounds_instance
         self.matchs = matchs
-
         self.counter_round = counter_round
         self.round_in_progress = round_in_progress
         self.check_result = check_result
@@ -44,7 +42,7 @@ class Tournament:
         return str(self.__dict__)
 
     def serialized(self):
-        """Serialise le model tournament pour la sauvegarde"""
+        """Serialise le modèle tournament pour la sauvegarde"""
         return {"name": self.name,
                 "location": self.location,
                 "date": str(self.date),
@@ -61,7 +59,7 @@ class Tournament:
                 "tournament_id": self.id}
 
     def deserialized(self, serialized):
-        """Deserialise le model tournament pour le chargement"""
+        """Deserialise le modèle tournament pour le chargement"""
         self.name = serialized['name']
         self.location = serialized['location']
         self.date = serialized['date']

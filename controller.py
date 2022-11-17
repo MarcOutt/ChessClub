@@ -11,9 +11,7 @@ from models.player import Player
 
 class Controller:
     def __init__(self):
-        # Models
         self.tournament = Tournament()
-        # Views
         self.view = views.MainView(self)
         self.db = TinyDB('data.json', indent=4)
         self.save_tournament_table = self.db.table("tournament")
@@ -58,8 +56,8 @@ class Controller:
 
     # Partie Menu
     def run_round(self):
-        """Lance un tour"""
-        self.view = views.MainView(self)
+        """Lance un tour et appelle la vue menu_tournament"""
+        # self.view = views.MainView(self)
         if self.tournament.counter_round > self.tournament.number_rounds:
             print("\n\n      Le tournoi est fini")
         elif self.tournament.round_in_progress:
@@ -126,7 +124,7 @@ class Controller:
         self.launch_matchs(players, matchs)
 
     def end_round(self):
-        """Fini le tour"""
+        """Fini le tour et appelle la vue screen_end_round"""
         if self.tournament.round_in_progress:
             now = datetime.now()
             self.round.ending_date = now.strftime("%d %b %Y")
@@ -139,7 +137,7 @@ class Controller:
             print("Aucun tour n'est en cours")
 
     def run_menu_result(self):
-        """Lance le menu pour entrer les résultats"""
+        """Lance le menu pour entrer les résultats et appelle la vue enter_result"""
         if self.tournament.check_result:
             for match in self.matchs:
                 player_1 = match[0]["lastname"]

@@ -1,6 +1,6 @@
 class Player:
-    def __init__(self, player_id: int = None, lastname: str = None, firstname: str = None, birthday=None, gender: str = None,
-                 ranking: int = None, score: int = 0):
+    def __init__(self, player_id: int = None, lastname: str = None, firstname: str = None, birthday=None,
+                 gender: str = None, ranking: int = None, score: int = 0):
         self.lastname = lastname
         self.firstname = firstname
         self.birthday = birthday
@@ -20,6 +20,7 @@ class Player:
         return str(self.__dict__)
 
     def serialized(self):
+        """Serialise le modèle Player pour la sauvegarde"""
         return {
                 "lastname": self.lastname,
                 "firstname": self.firstname,
@@ -31,6 +32,7 @@ class Player:
                 }
 
     def deserialized(self, serialized):
+        """Deserialise le modèle Player pour le chargement"""
         self.lastname = serialized["lastname"]
         self.firstname = serialized["firstname"]
         self.birthday = serialized["birthday"]
@@ -38,4 +40,3 @@ class Player:
         self.ranking = serialized["ranking"]
         self.score = serialized["score"]
         self.player_id = serialized["id"]
-
