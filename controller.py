@@ -42,9 +42,9 @@ class Controller:
     def add_player(self, lastname: str, firstname: str, birthday: str, gender: str, ranking: int):
         player = Player(lastname=lastname, firstname=firstname, birthday=birthday, gender=gender, ranking=ranking)
         """Ajoute le joueur dans le tournoi et sauvegarde les joueurs dans la base de données"""
-        self.tournament.players.append(player.serialized())
         player.player_id = self.players_table.insert(player.serialized())
         self.players_table.update({'id': player.player_id}, doc_ids=[player.player_id])
+        self.tournament.players.append(player.serialized())
         self.save_tournament_table.update({"players": self.tournament.players},
                                           where('name') == self.tournament.name)
 
@@ -62,18 +62,18 @@ class Controller:
         elif self.tournament.round_in_progress:
             print("Un tour est en cours")
             self.view.menu_tournament()
-        elif not self.tournament.check_result:
+        else:
             self.tournament.round_in_progress = True
             self.tournament.counter_round += 1
             if self.tournament.counter_round == 1:
                 self.matchs = self.launch_first_matchs()
             else:
                 players = self.tournament.players[:]
+                print(players)
                 self.matchs = self.launch_matchs(players)
             name = f"Round {self.tournament.counter_round}"
             self.round = Round(name=name, matchs=self.matchs)
-        else:
-            print("Veuillez rentrer les résultats avant de lancer le tour suivant")
+            self.tournament.round = self.round.serialized()
 
     def launch_first_matchs(self):
         """Lance les matchs du 1er tour"""
@@ -88,6 +88,7 @@ class Controller:
             matchs = []
             for i in range(len(lower_list)):
                 match = [upper_list[i], lower_list[i]]
+                match = sorted(match, key=lambda player: player['lastname'], reverse=False)
                 matchs.append(match)
             return matchs
         else:
@@ -106,6 +107,7 @@ class Controller:
         else:
             while players:
                 match = [players[0], players[1]]
+                match = sorted(match, key=lambda player: player['lastname'], reverse=False)
                 if match not in self.tournament.rounds_instance:
                     self.create_match(matchs, match, players, 0)
                 else:
@@ -127,9 +129,10 @@ class Controller:
             now = datetime.now()
             self.round.ending_date = now.strftime("%d %b %Y")
             self.round.ending_time = now.strftime("%Hh%Mm%Ss")
-            self.tournament.round_instance_list(self.round.serialized())
             self.tournament.check_result = True
             self.tournament.round_in_progress = False
+            self.tournament.round = self.round.serialized()
+            self.tournament.rounds_instance.append(self.tournament.round)
             self.view.screen_end_round()
         else:
             print("Aucun tour n'est en cours")
@@ -152,8 +155,8 @@ class Controller:
                 self.tournament.matchs.append(match.serialized())
                 self.tournament.check_result = False
             if self.tournament.counter_round == self.tournament.number_rounds:
-                print("Félicitation le tournoi est fini\n Veuillez trouver ci-dessous le classement final:")
                 self.sort_list_ranking_and_score()
+                self.view.ending_tournament()
         else:
             print("Le tour n'est pas encore fini ou commencé")
 
@@ -193,14 +196,14 @@ class Controller:
     def add_score(self, player_1, player_2):
         """Ajoute le score du joueur dans la base de donnée du tournoi"""
         # sourcery skip: extract-duplicate-method, inline-immediately-returned-variable
-        winner = ""
+        winner = "Pas de gagnant"
         for player in self.tournament.players:
             if player["lastname"] == player_1[0]:
                 player["score"] += player_1[1]
-                winner = player_1[0]
+                winner = "Pas de gagnant" if player["score"] == 0.5 else player_1[0]
             if player["lastname"] == player_2[0]:
                 player["score"] += player_2[1]
-                winner = player_2[0]
+                winner = "Pas de gagnant" if player["score"] == 0.5 else player_1[0]
         return winner
 
     def save_tournament(self):
@@ -210,6 +213,8 @@ class Controller:
         self.save_tournament_table.update({"matchs": self.tournament.matchs},
                                           where('name') == self.tournament.name)
         self.save_tournament_table.update({"rounds_instance": self.tournament.rounds_instance},
+                                          where('name') == self.tournament.name)
+        self.save_tournament_table.update({"round": self.tournament.round},
                                           where('name') == self.tournament.name)
         self.save_tournament_table.update({"counter_round": self.tournament.counter_round},
                                           where('name') == self.tournament.name)
@@ -221,7 +226,10 @@ class Controller:
 
     def load_tournament(self, tournament_database):
         """Charge un tournoi"""
+        self.round = Round()
         self.tournament.deserialized(tournament_database)
+        self.round.deserialized(self.tournament.round)
+        self.matchs = self.round.matchs
         print(self.tournament)
 
     def actor_report_by_name(self):

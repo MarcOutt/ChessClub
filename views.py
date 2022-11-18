@@ -51,7 +51,7 @@ class MainView:
     # Partie création de tournoi
     def create_tournament(self):
         """ Vue pour la création du tournoi"""
-        name = self.get_name_tournament()
+        name = input("Nom du tournoi: ")
         location = self.get_location()
         number_rounds = self.get_number_rounds()
         number_players = self.get_number_players()
@@ -60,15 +60,6 @@ class MainView:
         self.controller.add_tournament(name=name, location=location, number_rounds=number_rounds,
                                        number_players=number_players, time_control=time_control,
                                        description=description)
-
-    def get_name_tournament(self):
-        """Récupère le nom du tournoi"""
-        name = input("Nom du tournoi: ")
-        answer = name.isalpha()
-        if answer:
-            return name.capitalize()
-        print("Veuillez répondre avec des lettres")
-        self.get_name_tournament()
 
     def get_location(self):
         """Récupère le lieu du tournoi"""
@@ -195,21 +186,27 @@ class MainView:
                            "--> ")
             try:
                 choice_int = int(choice)
-                if choice_int == 1:
-                    print(f"\nRound {self.controller.tournament.counter_round + 1}\n")
-                    self.controller.run_round()
-                    self.display_matchs()
+                if choice_int == 0:
+                    self.main_menu()
+                    print("Le tournoi a été sauvegardé")
+                elif choice_int == 1:
+                    if self.controller.tournament.check_result:
+                        print("\nVeuillez rentrer les résultats avant de lancer le tour suivant")
+                    else:
+                        print(f"\nRound {self.controller.tournament.counter_round + 1}\n")
+                        self.controller.run_round()
+                        self.display_matchs()
                 elif choice_int == 2:
-                    self.controller.end_round()
+                    if self.controller.tournament.check_result:
+                        print("\nVeuillez rentrer les résultats avant de lancer le tour suivant")
+                    else:
+                        self.controller.end_round()
                 elif choice_int == 3:
                     self.controller.run_menu_result()
                 elif choice_int == 4:
                     self.screen_ranking()
                 elif choice_int == 5:
                     self.controller.save_tournament()
-                elif choice_int == 0:
-                    self.main_menu()
-                    print("Le tournoi a été sauvegardé")
                 self.menu_tournament()
             except ValueError:
                 print("Veuillez répondre par un chiffre correspondant à votre choix.")
@@ -218,7 +215,7 @@ class MainView:
         """Affiche les matchs du tour"""
         for match in self.controller.matchs:
             print(f"Nom : {match[0]['lastname']}, prénom: {match[0]['firstname']} "
-                  f"vs Nom : {match[0]['lastname']}, prénom: {match[0]['firstname']}")
+                  f"vs Nom : {match[1]['lastname']}, prénom: {match[1]['firstname']}")
 
     def enter_result(self, player_1, player_2):
         """Donne le résultat du match"""
@@ -262,6 +259,10 @@ class MainView:
 
         except ValueError:
             print("Veuillez répondre par un chiffre correspondant à votre choix.")
+
+    def ending_tournament(self):
+        print("\nFélicitation le tournoi est fini\n\nVeuillez trouver ci-dessous le classement final:")
+        self.screen_ranking()
 
     # Partie afficher des rapports
     def menu_get_report(self):

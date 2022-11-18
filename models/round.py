@@ -37,6 +37,15 @@ class Round:
                 "matchs": self.matchs
                 }
 
+    def deserialized(self, serialized):
+        """Deserialise le modèle round pour le chargement"""
+        self.name = serialized['name']
+        self.starting_date = serialized['starting_date']
+        self.starting_time = serialized['starting_time']
+        self.ending_date = serialized['ending_date']
+        self.ending_time = serialized['ending_time']
+        self.matchs = serialized['matchs']
+
     def endgame_date_time(self):
         """Donne la date et l'heure de fin du tour"""
         self.end_date = date.today()

@@ -4,10 +4,12 @@ from datetime import date
 class Tournament:
     def __init__(self, id_tournament: int = None, name: str = "Paris", location: str = "Paris",
                  number_players: int = 8, number_rounds: int = 4, players: list = None, time_control: str = None,
-                 description: str = None, rounds_instance=None, matchs: list = None, counter_round: int = 0,
-                 round_in_progress: bool = False, check_result: bool = False):
+                 description: str = None, rounds_instance=None, round: dict = None, matchs: list = None,
+                 counter_round: int = 0, round_in_progress: bool = False, check_result: bool = False):
         if rounds_instance is None:
             rounds_instance = []
+        if round is None:
+            round = {}
         if matchs is None:
             matchs = []
         if players is None:
@@ -22,6 +24,7 @@ class Tournament:
         self.description = description
         self.players = players
         self.rounds_instance = rounds_instance
+        self.round = round
         self.matchs = matchs
         self.counter_round = counter_round
         self.round_in_progress = round_in_progress
@@ -53,6 +56,7 @@ class Tournament:
                 "players": self.players,
                 "rounds_instance": self.rounds_instance,
                 "matchs": self.matchs,
+                "round": self.round,
                 "counter_round": self.counter_round,
                 "round_in_progress": self.round_in_progress,
                 "check_result": self.check_result,
@@ -65,6 +69,7 @@ class Tournament:
         self.date = serialized['date']
         self.number_rounds = serialized['number_rounds']
         self.matchs = serialized['matchs']
+        self.round = serialized['round']
         self.number_players = serialized['number_players']
         self.players = serialized['players']
         self.time_control = serialized['time_control']
