@@ -2,7 +2,7 @@ from datetime import datetime
 
 from tinydb import TinyDB, where
 
-import views
+from views.views import MainView
 from models.tournament import Tournament
 from models.round import Round
 from models.match import Match
@@ -12,7 +12,7 @@ from models.player import Player
 class Controller:
     def __init__(self):
         self.tournament = Tournament()
-        self.view = views.MainView(self)
+        self.view = MainView(self)
         self.db = TinyDB('data.json', indent=4)
         self.save_tournament_table = self.db.table("tournament")
         self.players_table = self.db.table("players")
