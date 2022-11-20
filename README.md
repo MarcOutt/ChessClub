@@ -48,20 +48,20 @@
 -------------------
 
 Navigation du menu gestionnaire de tournoi:
-* 1 Créer un tournoi permet de créer un nouveau tournoi et d'ajouter les joueurs
-* 2 Menu tournoi permet d'aller dans le menu tournoi
-* 3 Charger un tournoi permet de récupérer les tournois sauvegardés
-* 4 Editer un rapport permet d'éditer un rapport sur les tournois et les joueurs de la base de données (matchs, round, etc.)
-* 5 Mettre à jour le classement permet de mettre à jour le classement des joueurs de la base de données
-* 6 Exit permet de quitter le programme
+* ```1``` Créer un tournoi permet de créer un nouveau tournoi et d'ajouter les joueurs
+* ```2``` Menu tournoi permet d'aller dans le menu tournoi
+* ```3``` Charger un tournoi permet de récupérer les tournois sauvegardés
+* ```4``` Editer un rapport permet d'éditer un rapport sur les tournois et les joueurs de la base de données (matchs, round, etc.)
+* ```5``` Mettre à jour le classement permet de mettre à jour le classement des joueurs de la base de données
+* ```6``` Exit permet de quitter le programme
 
 Navigation du menu tournoi:
-* 1 Lancer le tour permet de démarrer les matchs
-* 2 Finir le tour permet d'arreter le tour lorsque les matchs ont tous finis
-* 3 Entrer les résultats des matchs permet de rentrer les scores
-* 4 Affiche le classement permet d'afficher le classement des joueurs en fonction de leur classement et de leur score
-* 5 Permet de sauvegarder le tournoi à tout moment
-* 0 Retour permet de revenir au menu précédent
+* ```1``` Lancer le tour permet de démarrer les matchs
+* ```2``` Finir le tour permet d'arreter le tour lorsque les matchs ont tous finis
+* ```3``` Entrer les résultats des matchs permet de rentrer les scores
+* ```4``` Affiche le classement permet d'afficher le classement des joueurs en fonction de leur classement et de leur score
+* ```5``` Permet de sauvegarder le tournoi à tout moment
+* ```0``` Retour permet de revenir au menu précédent
 
 Exemple d'utilisation:
 * Dans le menu gestionnaire de tournoi, faites ```1``` + ```entrée``` pour créer un tournoi
