@@ -73,7 +73,7 @@ Exemple d'utilisation:
 * Pour sauvegarder le tournoi, appuyer sur ```5``` + ```entrée``` dans le menu tournoi
 * Pour revenir en arrière appuyez sur ```0``` + ```entrée```
 
-## GENERER UN RAPPORT FLAKE8
+## RAPPORT FLAKE8
 -------------------
 * Ouvrir l'invite de commande
 * Lancer votre environnement virtuel
