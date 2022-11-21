@@ -69,7 +69,6 @@ class Controller:
                 self.matchs = self.launch_first_matchs()
             else:
                 players = self.tournament.players[:]
-                print(players)
                 self.matchs = self.launch_matchs(players)
             name = f"Round {self.tournament.counter_round}"
             self.round = Round(name=name, matchs=self.matchs)
@@ -235,7 +234,7 @@ class Controller:
     def actor_report_by_name(self):
         """Trie tous les joueurs de tous les tournois par ordre alphabétique"""
         players = list(self.players_table)
-        players = sorted(players, key=lambda user: user['firstname'], reverse=False)
+        players = sorted(players, key=lambda user: user['lastname'], reverse=False)
         return players
 
     def actor_report_by_ranking(self):

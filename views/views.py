@@ -249,7 +249,7 @@ class MainView:
         print("\n MENU CHARGEMENT DES TOURNOIS\n"
               "\nVeuillez choisir le tournoi à charger:")
         for tournament_number, tournament in enumerate(self.controller.save_tournament_table, start=1):
-            print(f"{tournament_number}. Nom du tournoi {tournament['name']}, lieu : {tournament['location']}, "
+            print(f"{tournament_number}. Nom du tournoi: {tournament['name']} - lieu : {tournament['location']} - "
                   f"numéro d'identification : {tournament.doc_id}")
         choice = input("--> ")
         try:
@@ -368,12 +368,15 @@ class MainView:
 
     def edit_ranking(self):  # sourcery skip: use-named-expression
         """"Affiche les joueurs de tous les tournois pour modifier leur classement"""
-        print("\nMENU MODIFICATION CLASSEMENT JOUEURS\n\n")
+        print("\n       MENU MODIFICATION CLASSEMENT JOUEURS\n")
         for player in self.controller.players_table:
             print(f" - ID: {player['id']} - nom: {player['lastname']} - prénom: {player['lastname']} - classement: "
                   f"{player['ranking']}")
         try:
-            choice = int(input("Veuillez indiquer le numéro d'id du joueur afin de modifier son classement"))
+            choice = int(input("  <--  0 - retour"
+                               "\n\nVeuillez indiquer le numéro d'id du joueur afin de modifier son classement: "))
+            if choice == 0:
+                return self.main_menu()
             try:
                 ranking = int(input("Quelle est son nouveau classement? "))
                 choice_exist = self.controller.edit_ranking(choice, ranking)
