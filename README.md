@@ -32,7 +32,7 @@
 * Ouvrir l'invite de commande
 * Créer un dossier au nom de l'application avec mkdir
 * Créer votre environnement virtuel avec python3.xx -m venv .env
-* Sourcer cette environnement virtuel avec avec source .env/Scripts/activate
+* Sourcer cette environnement virtuel avec source .env/Scripts/activate
 * Installer la configuration à l'aide du fichier requirements.txt avec pip3 install -r requirements.txt
 * Ajouter les fichiers dans le dossier créé
 * Le programme peut être lancé
@@ -72,4 +72,15 @@ Exemple d'utilisation:
 * Répéter les 3 étapes précédentes, jusqu'à la fin du tournoi
 * Pour sauvegarder le tournoi, appuyer sur ```5``` + ```entrée``` dans le menu tournoi
 * Pour revenir en arrière appuyez sur ```0``` + ```entrée```
+
+## GENERER UN RAPPORT FLAKE8
+-------------------
+* Ouvrir l'invite de commande
+* Lancer votre environnement virtuel
+* Rentrer le code suivant: flake8 --exclude=.env/ --max-line-length=119 --format=html --htmldir=flake8-rapport
+* Aller dans le dossier flake8-rapport
+* Ouvrir le fichier index
+
+
+
 
