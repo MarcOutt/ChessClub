@@ -36,7 +36,7 @@ class Controller:
         self.tournament.time_control = time_control
         self.tournament.description = description
         self.tournament.id = self.save_tournament_table.insert(self.tournament.serialized())
-        self.save_tournament_table.update({'id': self.tournament.id}, doc_ids=[self.tournament.id])
+        self.save_tournament_table.update({'tournament_id': self.tournament.id}, doc_ids=[self.tournament.id])
 
     # Partie ajout de joueur
     def add_player(self, lastname: str, firstname: str, birthday: str, gender: str, ranking: int):
@@ -57,8 +57,9 @@ class Controller:
     # Partie Menu
     def run_round(self):
         """Lance un tour et appelle la vue menu_tournament"""
-        if self.tournament.counter_round > self.tournament.number_rounds:
+        if self.tournament.counter_round >= self.tournament.number_rounds:
             print("\n\n      Le tournoi est fini")
+            return self.view.main_menu()
         elif self.tournament.round_in_progress:
             print("Un tour est en cours")
             self.view.menu_tournament()
@@ -78,6 +79,7 @@ class Controller:
         """Lance les matchs du 1er tour"""
         if self.tournament.counter_round > self.tournament.number_rounds:
             print("\n\n      Le tournoi est fini")
+            return self.view.main_menu()
         elif self.tournament.counter_round == 1:
             # création des listes niveaux haut et bas
             self.sort_list_ranking_and_score()
@@ -199,10 +201,10 @@ class Controller:
         for player in self.tournament.players:
             if player["lastname"] == player_1[0]:
                 player["score"] += player_1[1]
-                winner = "Pas de gagnant" if player["score"] == 0.5 else player_1[0]
+                winner = "Pas de gagnant" if player_1[1] == 0.5 else player_1[0]
             if player["lastname"] == player_2[0]:
                 player["score"] += player_2[1]
-                winner = "Pas de gagnant" if player["score"] == 0.5 else player_1[0]
+                winner = "Pas de gagnant" if player_2[1] == 0.5 else player_2[0]
         return winner
 
     def save_tournament(self):

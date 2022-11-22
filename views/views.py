@@ -27,15 +27,11 @@ class MainView:
                     print("Félicitation, vous avez créer votre un Tournoi")
                     self.menu_tournament()
                     break
-                elif choice_int == 0:
-                    self.add_player()
-                    self.menu_tournament()
-                    break
                 elif choice_int == 2:
                     if self.controller.tournament.name is None:
                         print("Veuillez créer ou charger un tournoi pour accéder au menu tournoi.")
                     else:
-                        break
+                        self.menu_tournament()
                 elif choice_int == 3:
                     self.screen_load_tournament()
                     self.menu_tournament()
@@ -214,7 +210,8 @@ class MainView:
     def display_matchs(self):
         """Affiche les matchs du tour"""
         for match in self.controller.matchs:
-            print(f"Nom : {match[0]['lastname']}, prénom: {match[0]['firstname']} "
+            print(f"Rencontres : \n"
+                  f"Nom : {match[0]['lastname']}, prénom: {match[0]['firstname']} "
                   f"vs Nom : {match[1]['lastname']}, prénom: {match[1]['firstname']}")
 
     def enter_result(self, player_1, player_2):

@@ -31,7 +31,7 @@ class Tournament:
         self.check_result = check_result
 
     def __str__(self):
-        players = "".join(f"\n - Nom: {player['firstname']} - prénom: {player['lastname']} - "
+        players = "".join(f"\n - Nom: {player['lastname']} - prénom: {player['firstname']} - "
                           f"classement: {player['ranking']}" for player in self.players)
         return f"\nNom : {self.name} \n" \
                f"Lieu: {self.location} \n" \
