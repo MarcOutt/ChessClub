@@ -6,9 +6,9 @@
 - [Introduction](#introduction)
 - [Configuration requise](#configuration-requise)
 - [Installation](#installation)
-- [Utilisation](#utilisation)
 - [Fonctionnalités](#fonctionnalités)
 - [Structure du projet](#structure-du-projet)
+- [Utilisation](#utilisation)
 - [Rapport Flake8](#rapport-flake8)
 - [Licence](#licence)
 - [Contact](#contact)
@@ -52,13 +52,7 @@ git clone https://github.com/MarcOutt/OC_p4.git
 pip install -r requirements.txt
 ```
 
-## Utilisation
 
-Pour lancer le programme, suivez les étapes suivantes :
-
-1. Dans l'invite de commande, assurez-vous que l'environnement virtuel est activé.
-2. Accédez au dossier contenant le gestionnaire de tournoi : `cd GestionnaireTournoiEchecs`.
-3. Exécutez le programme en entrant la commande : `python main.py`.
 
 ### Navigation du menu gestionnaire de tournoi:
 
@@ -78,17 +72,6 @@ Pour lancer le programme, suivez les étapes suivantes :
 5. **Sauvegarder le tournoi** : Permet de sauvegarder le tournoi à tout moment.
 0. **Retour** : Permet de revenir au menu précédent.
 
-Exemple d'utilisation :
-
-1. Dans le menu gestionnaire de tournoi, sélectionnez `1` + Entrée pour créer un tournoi.
-2. Remplissez les champs du tournoi.
-3. Lancez le 1er tour, sélectionnez `1` + Entrée.
-4. Une fois les matchs terminés, sélectionnez `2` + Entrée pour finir le tour.
-5. Saisissez les résultats des matchs, sélectionnez `3` + Entrée.
-6. Répétez les étapes 3 à 5 jusqu'à la fin du tournoi.
-7. Pour sauvegarder le tournoi, sélectionnez `5` + Entrée dans le menu tournoi.
-8. Pour revenir en arrière, appuyez sur `0` + Entrée.
-
 ## Fonctionnalités
 
 - Créer, gérer et sauvegarder des tournois d'échecs.
@@ -107,7 +90,26 @@ Le projet est organisé de la manière suivante :
 - `controllers.py` : Contient les contrôleurs pour gérer la logique du programme.
 - `data/` : Dossier contenant les fichiers de sauvegarde des tournois (format JSON).
 - `flake8-rapport/` : Dossier contenant le rapport Flake8.
+  
+## Utilisation
 
+Pour lancer le programme, suivez les étapes suivantes :
+
+1. Dans l'invite de commande, assurez-vous que l'environnement virtuel est activé.
+2. Accédez au dossier contenant le gestionnaire de tournoi : `cd GestionnaireTournoiEchecs`.
+3. Exécutez le programme en entrant la commande : `python main.py`.
+
+###Exemple d'utilisation :
+
+1. Dans le menu gestionnaire de tournoi, sélectionnez `1` + Entrée pour créer un tournoi.
+2. Remplissez les champs du tournoi.
+3. Lancez le 1er tour, sélectionnez `1` + Entrée.
+4. Une fois les matchs terminés, sélectionnez `2` + Entrée pour finir le tour.
+5. Saisissez les résultats des matchs, sélectionnez `3` + Entrée.
+6. Répétez les étapes 3 à 5 jusqu'à la fin du tournoi.
+7. Pour sauvegarder le tournoi, sélectionnez `5` + Entrée dans le menu tournoi.
+8. Pour revenir en arrière, appuyez sur `0` + Entrée.
+   
 ## Rapport Flake8
 
 Pour générer un rapport Flake8, suivez ces étapes :
