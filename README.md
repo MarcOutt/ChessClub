@@ -1,4 +1,4 @@
-![Python Version](https://img.shields.io/badge/Python-3.7-blue.svg)
+![Python Version](https://img.shields.io/badge/Python-3.7-blue.svg)![Flake8](https://img.shields.io/badge/Flake8-Passing-brightgreen.svg)
 # Gestionnaire de Tournoi d'Échecs
 
 ## Table des matières
