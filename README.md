@@ -99,7 +99,7 @@ Pour lancer le programme, suivez les étapes suivantes :
 2. Accédez au dossier contenant le gestionnaire de tournoi : `cd GestionnaireTournoiEchecs`.
 3. Exécutez le programme en entrant la commande : `python main.py`.
 
-###Exemple d'utilisation :
+### Exemple d'utilisation :
 
 1. Dans le menu gestionnaire de tournoi, sélectionnez `1` + Entrée pour créer un tournoi.
 2. Remplissez les champs du tournoi.
