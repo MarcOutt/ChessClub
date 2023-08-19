@@ -10,8 +10,6 @@
 - [Structure du projet](#structure-du-projet)
 - [Utilisation](#utilisation)
 - [Rapport Flake8](#rapport-flake8)
-- [Licence](#licence)
-- [Contact](#contact)
 
 ## Introduction
 
