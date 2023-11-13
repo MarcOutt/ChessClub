@@ -35,7 +35,7 @@ ou :
 
 1. Téléchargez le projet sur votre répertoire local : 
 ```
-git clone https://github.com/MarcOutt/OC_p4.git
+git clone https://github.com/MarcOutt/ChessClub.git
 ```
 
 2. Mettez en place un environnement virtuel :
